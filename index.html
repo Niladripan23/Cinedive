@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="google-site-verification" content="zPPvZ__F1wGGacreTJ3j63eiuVQAA73Fr6Pg4x2mugY" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cinedive – Discover Movies, Series, Anime & Documentaries</title>
+
+<meta name="description" content="Explore Cinedive to discover trending movies, TV series, anime, and documentaries. Get reviews, ratings, and personalized streaming recommendations in one place like never before.">
+
+<meta name="keywords" content="movies, tv series, anime, documentaries, streaming, movie reviews, trending shows, anime recommendations, documentaries online, entertainment platform, netflix, prime video, crunchyroll, disney marvel, cinedive">
+
+<meta name="author" content="Cinedive">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Cinedive – Movies, Series, Anime & Documentaries">
+<meta property="og:description" content="Discover movies, series, anime, and documentaries with reviews and ratings on Cinedive.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cinedive.vercel.app">
+<meta property="og:image" content="https://cinedive.vercel.app/preview.jpg">
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- 🔥 NEW TOP NAVBAR -->
+<div class="top-nav">
+  <div class="logo">Cinedive</div>
+
+  <div class="search-box">
+    <input type="text" placeholder="Find Your Dive...">
+  </div>
+
+  <div class="nav-actions">
+    <button class="filter-btn" onclick="showFilters()">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path d="M11.1437 17.8828H4.67114" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.205 17.8837C15.205 19.9254 15.8859 20.6054 17.9267 20.6054C19.9676 20.6054 20.6485 19.9254 20.6485 17.8837C20.6485 15.8419 19.9676 15.1619 17.9267 15.1619C15.8859 15.1619 15.205 15.8419 15.205 17.8837Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14.1765 7.39415H20.6481" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1153 7.39281C10.1153 5.35192 9.43436 4.67102 7.39346 4.67102C5.35167 4.67102 4.67078 5.35192 4.67078 7.39281C4.67078 9.4346 5.35167 10.1146 7.39346 10.1146C9.43436 10.1146 10.1153 9.4346 10.1153 7.39281Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ❌ Removed old buttons (Find + Surprise) -->
+
+<p class="subtitle">Can't decide what to watch?</p>
+<p class="subtitle">Dive into movies, series, animes & more ❤️.</p>
+
+<div id="filters" class="hidden">
+
+<h2>Your Preferences</h2>
+
+<div class="filter-row">
+
+<select id="type">
+<option value="">Type</option>
+<option value="movie">Movie</option>
+<option value="series">Series</option>
+<option value="anime">Anime</option>
+<option value="documentary">Documentary</option>
+</select>
+
+<select id="genre">
+<option value="">Genre</option>
+<option value="action">Action</option>
+<option value="drama">Drama</option>
+<option value="thriller">Thriller</option>
+<option value="comedy">Comedy</option>
+</select>
+
+<select id="language">
+<option value="">Language</option>
+<option value="english">English</option>
+<option value="hindi">Hindi</option>
+<option value="bengali">Bengali</option>
+<option value="korean">Korean</option>
+<option value="japanese">Japanese</option>
+</select>
+
+<select id="mood">
+<option value="">Mood</option>
+<option value="fun">Fun</option>
+<option value="dark">Dark</option>
+<option value="emotional">Emotional</option>
+<option value="mindblowing">Mind-blowing</option>
+<option value="chill">Chill</option>
+</select>
+
+</div>
+
+<button class="main-btn" onclick="findSuggestion()">Explore</button>
+
+</div>
+
+<h2 id="results-title"></h2>
+
+<div id="results" class="results-grid"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+<div class="footer">
+
+<p class="footer-text">
+All Data & Images are taken from 'The Movie Database' (TMDb) - <a href="https://www.themoviedb.org/">www.themoviedb.org</a> using their OFFICIAL API provided.
+Cinedive is an INDEPENDENT site and is NOT AFFILIATED with TMDb in any way.
+</p>
+
+<p class="footer-sub">
+Cinedive is currently in PROTOTYPE phase.
+</p>
+
+<p class="footer-sub">
+<a href="#">Suggest something as Feedback</a>
+</p>
+
+<p class="footer-sub">
+© 2026 Cinedive. All rights reserved. Any unauthorized commercial use prohibited.
+</p>
+
+</div>
+
+</body>
+</html>

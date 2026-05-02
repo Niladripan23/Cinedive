@@ -1,0 +1,1301 @@
+[
+{
+"title":"Sholay",
+"type":"movie",
+"genre":"action",
+"language":"hindi",
+"duration":"3h24m",
+"platform":"Prime Video",
+"mood":["fun","mindblowing"]
+},
+
+{
+"title":"3 Idiots",
+"type":"movie",
+"genre":"comedy",
+"language":"hindi",
+"duration":"2h50m",
+"platform":"Netflix",
+"mood":["fun","chill"]
+},
+
+{
+"title":"Dangal",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"2h41m",
+"platform":"Netflix",
+"mood":["emotional","inspiring"]
+},
+
+{
+"title":"Lagaan",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"3h44m",
+"platform":"Netflix",
+"mood":["emotional","inspiring"]
+},
+
+{
+"title":"Zindagi Na Milegi Dobara",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"2h35m",
+"platform":"Netflix",
+"mood":["emotional","fun"]
+},
+
+{
+"title":"Andhadhun",
+"type":"movie",
+"genre":"thriller",
+"language":"hindi",
+"duration":"2h19m",
+"platform":"Netflix",
+"mood":["dark","thrilling"]
+},
+
+{
+"title":"Drishyam",
+"type":"movie",
+"genre":"thriller",
+"language":"hindi",
+"duration":"2h43m",
+"platform":"Prime Video",
+"mood":["dark","thrilling"]
+},
+
+{
+"title":"PK",
+"type":"movie",
+"genre":"comedy",
+"language":"hindi",
+"duration":"2h33m",
+"platform":"Netflix",
+"mood":["fun","chill"]
+},
+
+{
+"title":"Queen",
+"type":"movie",
+"genre":"comedy",
+"language":"hindi",
+"duration":"2h26m",
+"platform":"Netflix",
+"mood":["fun","chill"]
+},
+
+{
+"title":"Barfi",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"2h31m",
+"platform":"Netflix",
+"mood":["emotional","fun"]
+},
+
+{
+"title":"Rockstar",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"2h39m",
+"platform":"Prime Video",
+"mood":["emotional","chill"]
+},
+
+{
+"title":"Swades",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"3h09m",
+"platform":"Netflix",
+"mood":["emotional","inspiring"]
+},
+
+{
+"title":"Rang De Basanti",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"2h37m",
+"platform":"Netflix",
+"mood":["emotional","inspiring"]
+},
+
+{
+"title":"Gully Boy",
+"type":"movie",
+"genre":"drama",
+"language":"hindi",
+"duration":"2h34m",
+"platform":"Prime Video",
+"mood":["inspiring","motivational"]
+},
+
+{
+"title":"Uri The Surgical Strike",
+"type":"movie",
+"genre":"action",
+"language":"hindi",
+"duration":"2h18m",
+"platform":"Zee5",
+"mood":["intense","inspiring"]
+},
+
+{
+"title":"Article 15",
+"type":"movie",
+"genre":"thriller",
+"language":"hindi",
+"duration":"2h10m",
+"platform":"Netflix",
+"mood":["dark","thought-provoking"]
+},
+
+{
+"title":"Kahaani",
+"type":"movie",
+"genre":"thriller",
+"language":"hindi",
+"duration":"2h02m",
+"platform":"Netflix",
+"mood":["thrilling","dark"]
+},
+
+{
+"title":"Tumbbad",
+"type":"movie",
+"genre":"thriller",
+"language":"hindi",
+"duration":"1h44m",
+"platform":"Prime Video",
+"mood":["dark","mindblowing"]
+},
+
+{
+"title":"Bhool Bhulaiyaa",
+"type":"movie",
+"genre":"comedy",
+"language":"hindi",
+"duration":"2h31m",
+"platform":"Netflix",
+"mood":["fun","thrilling"]
+},
+
+{
+"title":"Special 26",
+"type":"movie",
+"genre":"thriller",
+"language":"hindi",
+"duration":"2h24m",
+"platform":"Netflix",
+"mood":["thrilling","smart"]
+},
+
+{
+"title":"Inception",
+"type":"movie",
+"genre":"thriller",
+"language":"english",
+"duration":"2h28m",
+"platform":"Netflix",
+"mood":["mindblowing","thrilling"]
+},
+
+{
+"title":"Interstellar",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h49m",
+"platform":"Netflix",
+"mood":["emotional","mindblowing"]
+},
+
+{
+"title":"The Dark Knight",
+"type":"movie",
+"genre":"action",
+"language":"english",
+"duration":"2h32m",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Fight Club",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h19m",
+"platform":"Prime Video",
+"mood":["dark","mindblowing"]
+},
+
+{
+"title":"The Social Network",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h00m",
+"platform":"Netflix",
+"mood":["motivational","thought-provoking"]
+},
+
+{
+"title":"The Shawshank Redemption",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h22m",
+"platform":"Netflix",
+"mood":["inspiring","emotional"]
+},
+
+{
+"title":"The Matrix",
+"type":"movie",
+"genre":"action",
+"language":"english",
+"duration":"2h16m",
+"platform":"Netflix",
+"mood":["mindblowing","thrilling"]
+},
+
+{
+"title":"Forrest Gump",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h22m",
+"platform":"Netflix",
+"mood":["emotional","feelgood"]
+},
+
+{
+"title":"Gladiator",
+"type":"movie",
+"genre":"action",
+"language":"english",
+"duration":"2h35m",
+"platform":"Prime Video",
+"mood":["intense","inspiring"]
+},
+
+{
+"title":"The Prestige",
+"type":"movie",
+"genre":"thriller",
+"language":"english",
+"duration":"2h10m",
+"platform":"Netflix",
+"mood":["mindblowing","thrilling"]
+},
+
+{
+"title":"Avengers Endgame",
+"type":"movie",
+"genre":"action",
+"language":"english",
+"duration":"3h01m",
+"platform":"Disney+",
+"mood":["emotional","epic"]
+},
+
+{
+"title":"Joker",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h02m",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Titanic",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"3h14m",
+"platform":"Netflix",
+"mood":["emotional","romantic"]
+},
+
+{
+"title":"La La Land",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h08m",
+"platform":"Netflix",
+"mood":["emotional","romantic"]
+},
+
+{
+"title":"Whiplash",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"1h47m",
+"platform":"Prime Video",
+"mood":["intense","motivational"]
+},
+
+{
+"title":"The Wolf of Wall Street",
+"type":"movie",
+"genre":"comedy",
+"language":"english",
+"duration":"3h00m",
+"platform":"Netflix",
+"mood":["fun","wild"]
+},
+
+{
+"title":"Dune",
+"type":"movie",
+"genre":"action",
+"language":"english",
+"duration":"2h35m",
+"platform":"Netflix",
+"mood":["epic","intense"]
+},
+
+{
+"title":"Tenet",
+"type":"movie",
+"genre":"action",
+"language":"english",
+"duration":"2h30m",
+"platform":"Prime Video",
+"mood":["mindblowing","intense"]
+},
+
+{
+"title":"Blade Runner 2049",
+"type":"movie",
+"genre":"drama",
+"language":"english",
+"duration":"2h44m",
+"platform":"Netflix",
+"mood":["dark","thought-provoking"]
+},
+
+{
+"title":"Mad Max Fury Road",
+"type":"movie",
+"genre":"action",
+"language":"english",
+"duration":"2h00m",
+"platform":"Netflix",
+"mood":["intense","thrilling"]
+},
+
+{
+"title":"Parasite",
+"type":"movie",
+"genre":"thriller",
+"language":"korean",
+"duration":"2h12m",
+"platform":"Netflix",
+"mood":["dark","mindblowing"]
+},
+
+{
+"title":"Train to Busan",
+"type":"movie",
+"genre":"action",
+"language":"korean",
+"duration":"1h58m",
+"platform":"Netflix",
+"mood":["emotional","intense"]
+},
+
+{
+"title":"Oldboy",
+"type":"movie",
+"genre":"thriller",
+"language":"korean",
+"duration":"2h00m",
+"platform":"Prime Video",
+"mood":["dark","disturbing"]
+},
+
+{
+"title":"The Handmaiden",
+"type":"movie",
+"genre":"drama",
+"language":"korean",
+"duration":"2h25m",
+"platform":"Prime Video",
+"mood":["dark","romantic"]
+},
+
+{
+"title":"Memories of Murder",
+"type":"movie",
+"genre":"thriller",
+"language":"korean",
+"duration":"2h11m",
+"platform":"Prime Video",
+"mood":["dark","slow"]
+},
+
+{
+"title":"Burning",
+"type":"movie",
+"genre":"drama",
+"language":"korean",
+"duration":"2h28m",
+"platform":"Netflix",
+"mood":["slow","thought-provoking"]
+},
+
+{
+"title":"The Wailing",
+"type":"movie",
+"genre":"thriller",
+"language":"korean",
+"duration":"2h36m",
+"platform":"Prime Video",
+"mood":["dark","disturbing"]
+},
+
+{
+"title":"Snowpiercer",
+"type":"movie",
+"genre":"action",
+"language":"korean",
+"duration":"2h06m",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Decision to Leave",
+"type":"movie",
+"genre":"thriller",
+"language":"korean",
+"duration":"2h18m",
+"platform":"Mubi",
+"mood":["romantic","mysterious"]
+},
+
+{
+"title":"The Chaser",
+"type":"movie",
+"genre":"thriller",
+"language":"korean",
+"duration":"2h05m",
+"platform":"Prime Video",
+"mood":["intense","dark"]
+},
+
+{
+"title":"Pather Panchali",
+"type":"movie",
+"genre":"drama",
+"language":"bengali",
+"duration":"2h05m",
+"platform":"Hoichoi",
+"mood":["emotional","slow"]
+},
+
+{
+"title":"Aparajito",
+"type":"movie",
+"genre":"drama",
+"language":"bengali",
+"duration":"1h53m",
+"platform":"Hoichoi",
+"mood":["emotional","inspiring"]
+},
+
+{
+"title":"Apur Sansar",
+"type":"movie",
+"genre":"drama",
+"language":"bengali",
+"duration":"1h45m",
+"platform":"Hoichoi",
+"mood":["emotional","romantic"]
+},
+
+{
+"title":"Charulata",
+"type":"movie",
+"genre":"drama",
+"language":"bengali",
+"duration":"1h57m",
+"platform":"Hoichoi",
+"mood":["emotional","slow"]
+},
+
+{
+"title":"Sonar Kella",
+"type":"movie",
+"genre":"thriller",
+"language":"bengali",
+"duration":"2h00m",
+"platform":"Hoichoi",
+"mood":["thrilling","fun"]
+},
+
+{
+"title":"Joi Baba Felunath",
+"type":"movie",
+"genre":"thriller",
+"language":"bengali",
+"duration":"1h52m",
+"platform":"Hoichoi",
+"mood":["thrilling","fun"]
+},
+
+{
+"title":"Baishe Srabon",
+"type":"movie",
+"genre":"thriller",
+"language":"bengali",
+"duration":"2h20m",
+"platform":"Hoichoi",
+"mood":["dark","thrilling"]
+},
+
+{
+"title":"Praktan",
+"type":"movie",
+"genre":"drama",
+"language":"bengali",
+"duration":"2h10m",
+"platform":"Hoichoi",
+"mood":["emotional","romantic"]
+},
+
+{
+"title":"Belaseshe",
+"type":"movie",
+"genre":"drama",
+"language":"bengali",
+"duration":"2h20m",
+"platform":"Hoichoi",
+"mood":["emotional","feelgood"]
+},
+
+{
+"title":"Vinci Da",
+"type":"movie",
+"genre":"thriller",
+"language":"bengali",
+"duration":"2h10m",
+"platform":"Hoichoi",
+"mood":["dark","thrilling"]
+},
+
+{
+"title":"Attack on Titan",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["intense","dark"]
+},
+
+{
+"title":"Death Note",
+"type":"anime",
+"genre":"thriller",
+"language":"japanese",
+"duration":"23m per episode",
+"platform":"Netflix",
+"mood":["mindblowing","dark"]
+},
+
+{
+"title":"Naruto",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"23m per episode",
+"platform":"Netflix",
+"mood":["inspiring","fun"]
+},
+
+{
+"title":"Naruto Shippuden",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"23m per episode",
+"platform":"Netflix",
+"mood":["emotional","inspiring"]
+},
+
+{
+"title":"One Piece",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["fun","adventure"]
+},
+
+{
+"title":"Demon Slayer",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"23m per episode",
+"platform":"Netflix",
+"mood":["emotional","intense"]
+},
+
+{
+"title":"Jujutsu Kaisen",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"23m per episode",
+"platform":"Netflix",
+"mood":["intense","fun"]
+},
+
+{
+"title":"Fullmetal Alchemist Brotherhood",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["emotional","inspiring"]
+},
+
+{
+"title":"Tokyo Ghoul",
+"type":"anime",
+"genre":"thriller",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Steins Gate",
+"type":"anime",
+"genre":"thriller",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["mindblowing","emotional"]
+},
+
+{
+"title":"Your Name",
+"type":"anime",
+"genre":"drama",
+"language":"japanese",
+"duration":"1h52m",
+"platform":"Netflix",
+"mood":["emotional","romantic"]
+},
+
+{
+"title":"Spirited Away",
+"type":"anime",
+"genre":"drama",
+"language":"japanese",
+"duration":"2h05m",
+"platform":"Netflix",
+"mood":["magical","emotional"]
+},
+
+{
+"title":"Howls Moving Castle",
+"type":"anime",
+"genre":"drama",
+"language":"japanese",
+"duration":"1h59m",
+"platform":"Netflix",
+"mood":["romantic","magical"]
+},
+
+{
+"title":"A Silent Voice",
+"type":"anime",
+"genre":"drama",
+"language":"japanese",
+"duration":"2h10m",
+"platform":"Netflix",
+"mood":["emotional","deep"]
+},
+
+{
+"title":"Weathering With You",
+"type":"anime",
+"genre":"drama",
+"language":"japanese",
+"duration":"1h52m",
+"platform":"Netflix",
+"mood":["romantic","emotional"]
+},
+
+{
+"title":"Chainsaw Man",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Crunchyroll",
+"mood":["dark","intense"]
+},
+
+{
+"title":"My Hero Academia",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["inspiring","fun"]
+},
+
+{
+"title":"Hunter x Hunter",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["adventure","intense"]
+},
+
+{
+"title":"Vinland Saga",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Mob Psycho 100",
+"type":"anime",
+"genre":"action",
+"language":"japanese",
+"duration":"24m per episode",
+"platform":"Netflix",
+"mood":["fun","inspiring"]
+},
+
+{
+"title":"Our Planet",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["calm","mindblowing"]
+},
+
+{
+"title":"Planet Earth",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["calm","mindblowing"]
+},
+
+{
+"title":"The Last Dance",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["inspiring","motivational"]
+},
+
+{
+"title":"Free Solo",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"1h40m",
+"platform":"Disney+",
+"mood":["intense","inspiring"]
+},
+
+{
+"title":"The Social Dilemma",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"1h34m",
+"platform":"Netflix",
+"mood":["dark","thought-provoking"]
+},
+
+{
+"title":"Inside Bill's Brain",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"1h00m per episode",
+"platform":"Netflix",
+"mood":["motivational","thought-provoking"]
+},
+
+{
+"title":"Making a Murderer",
+"type":"documentary",
+"genre":"thriller",
+"language":"english",
+"duration":"1h per episode",
+"platform":"Netflix",
+"mood":["dark","thrilling"]
+},
+
+{
+"title":"Tiger King",
+"type":"documentary",
+"genre":"thriller",
+"language":"english",
+"duration":"45m per episode",
+"platform":"Netflix",
+"mood":["wild","dark"]
+},
+
+{
+"title":"My Octopus Teacher",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"1h25m",
+"platform":"Netflix",
+"mood":["calm","emotional"]
+},
+
+{
+"title":"13th",
+"type":"documentary",
+"genre":"drama",
+"language":"english",
+"duration":"1h40m",
+"platform":"Netflix",
+"mood":["dark","thought-provoking"]
+},
+
+{
+"title":"Sacred Games",
+"type":"series",
+"genre":"thriller",
+"language":"hindi",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["dark","thrilling"]
+},
+
+{
+"title":"Mirzapur",
+"type":"series",
+"genre":"action",
+"language":"hindi",
+"duration":"45m per episode",
+"platform":"Prime Video",
+"mood":["dark","intense"]
+},
+
+{
+"title":"The Family Man",
+"type":"series",
+"genre":"action",
+"language":"hindi",
+"duration":"45m per episode",
+"platform":"Prime Video",
+"mood":["thrilling","fun"]
+},
+
+{
+"title":"Panchayat",
+"type":"series",
+"genre":"comedy",
+"language":"hindi",
+"duration":"30m per episode",
+"platform":"Prime Video",
+"mood":["chill","feelgood"]
+},
+
+{
+"title":"Scam 1992",
+"type":"series",
+"genre":"drama",
+"language":"hindi",
+"duration":"55m per episode",
+"platform":"SonyLIV",
+"mood":["inspiring","smart"]
+},
+
+{
+"title":"Kota Factory",
+"type":"series",
+"genre":"drama",
+"language":"hindi",
+"duration":"40m per episode",
+"platform":"Netflix",
+"mood":["emotional","relatable"]
+},
+
+{
+"title":"Aspirants",
+"type":"series",
+"genre":"drama",
+"language":"hindi",
+"duration":"45m per episode",
+"platform":"TVF Play",
+"mood":["motivational","emotional"]
+},
+
+{
+"title":"Gullak",
+"type":"series",
+"genre":"comedy",
+"language":"hindi",
+"duration":"30m per episode",
+"platform":"SonyLIV",
+"mood":["feelgood","chill"]
+},
+
+{
+"title":"Paatal Lok",
+"type":"series",
+"genre":"thriller",
+"language":"hindi",
+"duration":"50m per episode",
+"platform":"Prime Video",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Rocket Boys",
+"type":"series",
+"genre":"drama",
+"language":"hindi",
+"duration":"45m per episode",
+"platform":"SonyLIV",
+"mood":["inspiring","motivational"]
+},
+
+{
+"title":"Breaking Bad",
+"type":"series",
+"genre":"drama",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Game of Thrones",
+"type":"series",
+"genre":"action",
+"language":"english",
+"duration":"55m per episode",
+"platform":"HBO Max",
+"mood":["epic","dark"]
+},
+
+{
+"title":"Stranger Things",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["thrilling","fun"]
+},
+
+{
+"title":"The Office",
+"type":"series",
+"genre":"comedy",
+"language":"english",
+"duration":"22m per episode",
+"platform":"Netflix",
+"mood":["fun","chill"]
+},
+
+{
+"title":"Friends",
+"type":"series",
+"genre":"comedy",
+"language":"english",
+"duration":"22m per episode",
+"platform":"Netflix",
+"mood":["fun","chill"]
+},
+
+{
+"title":"Sherlock",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"90m per episode",
+"platform":"Netflix",
+"mood":["smart","thrilling"]
+},
+
+{
+"title":"The Crown",
+"type":"series",
+"genre":"drama",
+"language":"english",
+"duration":"55m per episode",
+"platform":"Netflix",
+"mood":["slow","dramatic"]
+},
+
+{
+"title":"The Witcher",
+"type":"series",
+"genre":"action",
+"language":"english",
+"duration":"60m per episode",
+"platform":"Netflix",
+"mood":["dark","epic"]
+},
+
+{
+"title":"House of the Dragon",
+"type":"series",
+"genre":"action",
+"language":"english",
+"duration":"60m per episode",
+"platform":"HBO Max",
+"mood":["dark","epic"]
+},
+
+{
+"title":"Black Mirror",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["dark","mindblowing"]
+},
+
+{
+"title":"The Boys",
+"type":"series",
+"genre":"action",
+"language":"english",
+"duration":"60m per episode",
+"platform":"Prime Video",
+"mood":["dark","wild"]
+},
+
+{
+"title":"Westworld",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"60m per episode",
+"platform":"HBO Max",
+"mood":["mindblowing","dark"]
+},
+
+{
+"title":"The Mandalorian",
+"type":"series",
+"genre":"action",
+"language":"english",
+"duration":"40m per episode",
+"platform":"Disney+",
+"mood":["adventure","fun"]
+},
+
+{
+"title":"Narcos",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Peaky Blinders",
+"type":"series",
+"genre":"drama",
+"language":"english",
+"duration":"55m per episode",
+"platform":"Netflix",
+"mood":["dark","stylish"]
+},
+
+{
+"title":"Lost",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"45m per episode",
+"platform":"Netflix",
+"mood":["mysterious","thrilling"]
+},
+
+{
+"title":"True Detective",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"60m per episode",
+"platform":"HBO Max",
+"mood":["dark","slow"]
+},
+
+{
+"title":"Better Call Saul",
+"type":"series",
+"genre":"drama",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["slow","smart"]
+},
+
+{
+"title":"Dexter",
+"type":"series",
+"genre":"thriller",
+"language":"english",
+"duration":"50m per episode",
+"platform":"Prime Video",
+"mood":["dark","thrilling"]
+},
+
+{
+"title":"House MD",
+"type":"series",
+"genre":"drama",
+"language":"english",
+"duration":"45m per episode",
+"platform":"Prime Video",
+"mood":["smart","dramatic"]
+},
+
+{
+"title":"Squid Game",
+"type":"series",
+"genre":"thriller",
+"language":"korean",
+"duration":"55m per episode",
+"platform":"Netflix",
+"mood":["intense","dark"]
+},
+
+{
+"title":"Crash Landing on You",
+"type":"series",
+"genre":"drama",
+"language":"korean",
+"duration":"70m per episode",
+"platform":"Netflix",
+"mood":["romantic","emotional"]
+},
+
+{
+"title":"Kingdom",
+"type":"series",
+"genre":"action",
+"language":"korean",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["intense","thrilling"]
+},
+
+{
+"title":"Vincenzo",
+"type":"series",
+"genre":"comedy",
+"language":"korean",
+"duration":"70m per episode",
+"platform":"Netflix",
+"mood":["fun","stylish"]
+},
+
+{
+"title":"All of Us Are Dead",
+"type":"series",
+"genre":"thriller",
+"language":"korean",
+"duration":"60m per episode",
+"platform":"Netflix",
+"mood":["intense","dark"]
+},
+
+{
+"title":"My Name",
+"type":"series",
+"genre":"action",
+"language":"korean",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Extraordinary Attorney Woo",
+"type":"series",
+"genre":"drama",
+"language":"korean",
+"duration":"60m per episode",
+"platform":"Netflix",
+"mood":["feelgood","emotional"]
+},
+
+{
+"title":"The Glory",
+"type":"series",
+"genre":"drama",
+"language":"korean",
+"duration":"55m per episode",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Sweet Home",
+"type":"series",
+"genre":"thriller",
+"language":"korean",
+"duration":"50m per episode",
+"platform":"Netflix",
+"mood":["dark","intense"]
+},
+
+{
+"title":"Signal",
+"type":"series",
+"genre":"thriller",
+"language":"korean",
+"duration":"60m per episode",
+"platform":"Netflix",
+"mood":["thrilling","mindblowing"]
+}
+]
