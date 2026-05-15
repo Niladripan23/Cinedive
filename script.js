@@ -97,3 +97,102 @@ function displayResults(results, title) {
 
   resultsDiv.innerHTML = html;
 }
+
+/* =========================================
+   SEARCH OVERLAY LOGIC
+========================================= */
+let searchDataCache = []; // Cache to ensure lightning-fast typing
+
+async function openSearchOverlay() {
+  document.getElementById("search-overlay").classList.add("active");
+  document.body.classList.add("search-active"); // Lock background scroll
+  
+  // Slight delay for smooth animation before focusing input
+  setTimeout(() => {
+    document.getElementById("overlay-search-input").focus();
+  }, 100);
+
+  // Pre-fetch data if not already cached
+  if (searchDataCache.length === 0) {
+    try {
+      const response = await fetch("data.json");
+      searchDataCache = await response.json();
+    } catch (e) {
+      console.error("Failed to load search data:", e);
+    }
+  }
+}
+
+function closeSearchOverlay() {
+  document.getElementById("search-overlay").classList.remove("active");
+  document.body.classList.remove("search-active");
+  
+  // Clear inputs and results on close
+  document.getElementById("overlay-search-input").value = "";
+  document.getElementById("search-overlay-results").innerHTML = "";
+  document.getElementById("search-empty-state").classList.add("hidden");
+}
+
+function handleRealTimeSearch(query) {
+  const resultsGrid = document.getElementById("search-overlay-results");
+  const emptyState = document.getElementById("search-empty-state");
+
+  query = query.toLowerCase().trim();
+
+  // If input is empty, clear screen
+  if (!query) {
+    resultsGrid.innerHTML = "";
+    emptyState.classList.add("hidden");
+    return;
+  }
+
+  // Filter based on Title, Genre, Language, or Type
+  const filtered = searchDataCache.filter(item => {
+    const titleMatch = item.t.toLowerCase().includes(query);
+    
+    // Convert IDs to text mappings for searching
+    const genreMatch = item.g ? item.g.some(id => MAP.g[id] && MAP.g[id].toLowerCase().includes(query)) : false;
+    const langName = MAP.l[item.l] ? MAP.l[item.l].toLowerCase() : "";
+    const typeName = MAP.ty[item.ty] ? MAP.ty[item.ty].toLowerCase() : "";
+
+    return titleMatch || genreMatch || langName.includes(query) || typeName.includes(query);
+  });
+
+  // Display handling
+  if (filtered.length === 0) {
+    resultsGrid.innerHTML = "";
+    emptyState.classList.remove("hidden");
+  } else {
+    emptyState.classList.add("hidden");
+    renderOverlayCards(filtered);
+  }
+}
+
+function renderOverlayCards(results) {
+  const resultsGrid = document.getElementById("search-overlay-results");
+  let html = "";
+  
+  // Reusing your exact HTML template to perfectly match existing cards
+  results.forEach(movie => {
+    const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
+    const langName = MAP.l[movie.l] || movie.l;
+
+    html += `
+      <div class="movie-card">
+        <img src="${getImageUrl(movie.p)}" loading="lazy">
+        <div class="movie-info">
+          <div class="movie-title">${movie.t}</div>
+          <div class="movie-meta">
+            ${genreNames}<br>
+            ${langName.toUpperCase()}<br>
+            <span style="font-size:0.85em; color:#FFD700; font-weight:600;">
+              ${movie.m ? movie.m.map(id => MAP.m[id]).join(" • ") : ""}
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  resultsGrid.innerHTML = html;
+}
