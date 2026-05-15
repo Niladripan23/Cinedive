@@ -16,7 +16,7 @@ function getImageUrl(path) {
   return path ? "https://image.tmdb.org/t/p/w500" + path : "https://via.placeholder.com/300x450?text=No+Poster";
 }
 
-// 🎯 FIND PICKS
+// 🎯 FIND PICKS (Homepage Explore Button)
 async function findSuggestion() {
   const resultsDiv = document.getElementById("results");
   resultsDiv.innerHTML = `<p style="color:#aaa; text-align:center; width:100%;">Finding your picks...</p>`;
@@ -25,7 +25,6 @@ async function findSuggestion() {
     const response = await fetch("data.json");
     const data = await response.json();
 
-    // ✅ FIX: Convert String inputs from HTML to Numbers for matching JSON
     const type = parseInt(document.getElementById("type").value);
     const genre = parseInt(document.getElementById("genre").value);
     const language = document.getElementById("language").value;
@@ -45,22 +44,7 @@ async function findSuggestion() {
   }
 }
 
-// 🎲 SURPRISE PICKS
-async function randomPicks() {
-  const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = `<p style="color:#aaa; text-align:center; width:100%;">Loading surprise picks...</p>`;
-
-  try {
-    const response = await fetch("data.json");
-    const data = await response.json();
-    let results = data.sort(() => 0.5 - Math.random()).slice(0, 6);
-    displayResults(results, "Surprise Picks 🎲");
-  } catch (e) {
-    resultsDiv.innerHTML = `<p style="color:#ff4d4d;">Error loading surprise picks.</p>`;
-  }
-}
-
-// 🖼️ RENDER ENGINE
+// 🖼️ RENDER ENGINE (Homepage Grid)
 function displayResults(results, title) {
   const resultsDiv = document.getElementById("results");
   document.getElementById("results-title").innerText = title;
@@ -99,7 +83,7 @@ function displayResults(results, title) {
 }
 
 /* =========================================
-   SEARCH OVERLAY LOGIC (UPGRADED)
+   🔥 UPGRADED SEARCH OVERLAY LOGIC
 ========================================= */
 let searchDataCache = []; 
 const RECENT_SEARCHES_KEY = "cinedive_recent_searches";
@@ -122,7 +106,7 @@ async function openSearchOverlay() {
     }
   }
 
-  // Render Default State Views
+  // Render Default State Views (Recent, Trending, Featured)
   renderRecentSearches();
   populateHorizontalSections();
 }
@@ -144,10 +128,14 @@ function getRecentSearches() {
 function saveRecentSearch(query) {
   if (!query.trim()) return;
   let searches = getRecentSearches();
+  
   // Remove duplicates
   searches = searches.filter(s => s.toLowerCase() !== query.toLowerCase());
-  searches.unshift(query.trim()); // Add to front
-  if (searches.length > 5) searches.pop(); // Keep max 5
+  
+  // Add to front and keep max 5
+  searches.unshift(query.trim()); 
+  if (searches.length > 5) searches.pop(); 
+  
   localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(searches));
 }
 
@@ -182,7 +170,7 @@ function applyRecentSearch(query) {
 function handleSearchEnter(event, query) {
   if (event.key === "Enter") {
     saveRecentSearch(query);
-    event.target.blur(); // Dismiss keyboard on mobile
+    event.target.blur(); // Dismiss keyboard on mobile devices
   }
 }
 
@@ -230,18 +218,18 @@ function handleRealTimeSearch(query) {
 
   query = query.toLowerCase().trim();
 
-  // View Toggling
+  // View Toggling: If empty, show default view. If typing, show results.
   if (!query) {
     defaultState.classList.remove("hidden");
     resultsState.classList.add("hidden");
-    renderRecentSearches(); // Refresh recent searches list
+    renderRecentSearches(); // Refresh recent searches list to ensure it's up to date
     return;
   }
 
   defaultState.classList.add("hidden");
   resultsState.classList.remove("hidden");
 
-  // Filtering
+  // Filter based on Title, Genre, Language, or Type
   const filtered = searchDataCache.filter(item => {
     const titleMatch = item.t.toLowerCase().includes(query);
     const genreMatch = item.g ? item.g.some(id => MAP.g[id] && MAP.g[id].toLowerCase().includes(query)) : false;
