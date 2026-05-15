@@ -99,20 +99,20 @@ function displayResults(results, title) {
 }
 
 /* =========================================
-   SEARCH OVERLAY LOGIC
+   SEARCH OVERLAY LOGIC (UPGRADED)
 ========================================= */
-let searchDataCache = []; // Cache to ensure lightning-fast typing
+let searchDataCache = []; 
+const RECENT_SEARCHES_KEY = "cinedive_recent_searches";
 
 async function openSearchOverlay() {
   document.getElementById("search-overlay").classList.add("active");
-  document.body.classList.add("search-active"); // Lock background scroll
+  document.body.classList.add("search-active"); 
   
-  // Slight delay for smooth animation before focusing input
   setTimeout(() => {
     document.getElementById("overlay-search-input").focus();
   }, 100);
 
-  // Pre-fetch data if not already cached
+  // Pre-fetch data
   if (searchDataCache.length === 0) {
     try {
       const response = await fetch("data.json");
@@ -121,36 +121,129 @@ async function openSearchOverlay() {
       console.error("Failed to load search data:", e);
     }
   }
+
+  // Render Default State Views
+  renderRecentSearches();
+  populateHorizontalSections();
 }
 
 function closeSearchOverlay() {
   document.getElementById("search-overlay").classList.remove("active");
   document.body.classList.remove("search-active");
   
-  // Clear inputs and results on close
+  // Reset overlay to default view
   document.getElementById("overlay-search-input").value = "";
-  document.getElementById("search-overlay-results").innerHTML = "";
-  document.getElementById("search-empty-state").classList.add("hidden");
+  handleRealTimeSearch(""); 
 }
 
+/* --- RECENT SEARCHES LOGIC --- */
+function getRecentSearches() {
+  return JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY)) || [];
+}
+
+function saveRecentSearch(query) {
+  if (!query.trim()) return;
+  let searches = getRecentSearches();
+  // Remove duplicates
+  searches = searches.filter(s => s.toLowerCase() !== query.toLowerCase());
+  searches.unshift(query.trim()); // Add to front
+  if (searches.length > 5) searches.pop(); // Keep max 5
+  localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(searches));
+}
+
+function renderRecentSearches() {
+  const list = document.getElementById("recent-searches-list");
+  const section = document.getElementById("recent-searches-section");
+  const searches = getRecentSearches();
+
+  if (searches.length === 0) {
+    section.style.display = "none";
+    return;
+  }
+
+  section.style.display = "block";
+  list.innerHTML = searches.map(query => `
+    <li class="recent-search-item" onclick="applyRecentSearch('${query.replace(/'/g, "\\'")}')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      ${query}
+    </li>
+  `).join("");
+}
+
+function applyRecentSearch(query) {
+  const input = document.getElementById("overlay-search-input");
+  input.value = query;
+  handleRealTimeSearch(query);
+}
+
+function handleSearchEnter(event, query) {
+  if (event.key === "Enter") {
+    saveRecentSearch(query);
+    event.target.blur(); // Dismiss keyboard on mobile
+  }
+}
+
+/* --- TRENDING & FEATURED LOGIC --- */
+function populateHorizontalSections() {
+  if (!searchDataCache || searchDataCache.length === 0) return;
+  
+  const trendingContainer = document.getElementById("trending-scroll");
+  const featuredContainer = document.getElementById("featured-scroll");
+
+  // Prevent re-rendering if already populated
+  if (trendingContainer.innerHTML.trim() !== "") return;
+
+  // Shuffle cache to simulate Trending and Featured lists
+  const shuffled = [...searchDataCache].sort(() => 0.5 - Math.random());
+  
+  trendingContainer.innerHTML = generateHorizontalCards(shuffled.slice(0, 8));
+  featuredContainer.innerHTML = generateHorizontalCards(shuffled.slice(8, 16));
+}
+
+function generateHorizontalCards(items) {
+  let html = "";
+  // Reuses exact movie-card HTML architecture to inherit global styling, modified slightly by CSS
+  items.forEach(movie => {
+    const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
+    html += `
+      <div class="movie-card" onclick="applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
+        <img src="${getImageUrl(movie.p)}" loading="lazy">
+        <div class="movie-info">
+          <div class="movie-title">${movie.t}</div>
+          <div class="movie-meta" style="font-size:11px;">${genreNames}</div>
+        </div>
+      </div>
+    `;
+  });
+  return html;
+}
+
+/* --- REAL-TIME SEARCH FILTERING --- */
 function handleRealTimeSearch(query) {
+  const defaultState = document.getElementById("search-default-state");
+  const resultsState = document.getElementById("search-results-state");
   const resultsGrid = document.getElementById("search-overlay-results");
   const emptyState = document.getElementById("search-empty-state");
 
   query = query.toLowerCase().trim();
 
-  // If input is empty, clear screen
+  // View Toggling
   if (!query) {
-    resultsGrid.innerHTML = "";
-    emptyState.classList.add("hidden");
+    defaultState.classList.remove("hidden");
+    resultsState.classList.add("hidden");
+    renderRecentSearches(); // Refresh recent searches list
     return;
   }
 
-  // Filter based on Title, Genre, Language, or Type
+  defaultState.classList.add("hidden");
+  resultsState.classList.remove("hidden");
+
+  // Filtering
   const filtered = searchDataCache.filter(item => {
     const titleMatch = item.t.toLowerCase().includes(query);
-    
-    // Convert IDs to text mappings for searching
     const genreMatch = item.g ? item.g.some(id => MAP.g[id] && MAP.g[id].toLowerCase().includes(query)) : false;
     const langName = MAP.l[item.l] ? MAP.l[item.l].toLowerCase() : "";
     const typeName = MAP.ty[item.ty] ? MAP.ty[item.ty].toLowerCase() : "";
@@ -158,7 +251,7 @@ function handleRealTimeSearch(query) {
     return titleMatch || genreMatch || langName.includes(query) || typeName.includes(query);
   });
 
-  // Display handling
+  // Displaying Results
   if (filtered.length === 0) {
     resultsGrid.innerHTML = "";
     emptyState.classList.remove("hidden");
@@ -172,7 +265,6 @@ function renderOverlayCards(results) {
   const resultsGrid = document.getElementById("search-overlay-results");
   let html = "";
   
-  // Reusing your exact HTML template to perfectly match existing cards
   results.forEach(movie => {
     const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
     const langName = MAP.l[movie.l] || movie.l;
