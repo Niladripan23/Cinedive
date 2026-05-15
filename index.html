@@ -13,7 +13,6 @@
 
 <meta name="author" content="Cinedive">
 
-<!-- Open Graph -->
 <meta property="og:title" content="Cinedive – Movies, Series, Anime & Documentaries">
 <meta property="og:description" content="Discover movies, series, anime, and documentaries with reviews and ratings on Cinedive.">
 <meta property="og:type" content="website">
@@ -28,16 +27,15 @@
 
 <body>
 
-<!-- TOP NAVBAR -->
 <div class="top-nav">
   <div class="logo">Cinedive</div>
 
   <div class="search-box">
-    <div class="search-inner">
+    <div class="search-inner" onclick="openSearchOverlay();">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
         <path d="M15.6207067,15.6542822 C16.0072308,15.270377 16.6268293,15.270377 17.0133534,15.6542822 L19.5680176,17.7164156 C20.1292102,18.2388171 20.1292102,19.0857973 19.6123694,19.6081989 C19.0955285,20.1306004 18.2575639,20.1306004 17.7407231,19.6081989 L15.6207067,17.1784678 C15.390397,16.8980019 15.3076306,16.6615115 15.3076306,16.416375 C15.3076306,16.1303824 15.4202849,15.8561581 15.6207067,15.6542822 Z M8.57763961,0 C10.8525711,0 13.0343273,0.913436016 14.6429467,2.53936255 C16.2515662,4.16528909 17.1552792,6.37051871 17.1552792,8.66992606 C17.1552792,13.458194 13.3149392,17.3398521 8.57763961,17.3398521 C3.84034006,17.3398521 0,13.458194 0,8.66992606 C0,3.88165812 3.84034006,0 8.57763961,0 Z" fill="#ffffff"/>
       </svg>
-      <input type="text" placeholder="Find Your Dive...">
+      <input type="text" placeholder="Find Your Dive..." readonly style="pointer-events: none;">
     </div>
   </div>
 
@@ -123,6 +121,26 @@
 
 </div>
 
+<div id="search-overlay" class="search-overlay">
+  <div class="search-overlay-header">
+    <button class="back-btn" onclick="closeSearchOverlay()">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    <span class="search-overlay-title">Search</span>
+  </div>
+  
+  <div class="search-overlay-input-wrapper">
+    <input type="text" id="overlay-search-input" placeholder="Search movies, anime, series..." oninput="handleRealTimeSearch(this.value)">
+  </div>
+  
+  <div class="search-overlay-content">
+    <div id="search-overlay-results" class="results-grid"></div>
+    <div id="search-empty-state" class="search-empty-state hidden">No results found</div>
+  </div>
+</div>
+
 <script src="script.js"></script>
 
 <div class="footer">
@@ -131,7 +149,6 @@
   </p>
 </div>
 
-<!-- BOTTOM NAVBAR -->
 <nav class="bottom-nav">
   <a class="bottom-nav-item" href="#">
     <span class="bottom-nav-icon">
@@ -143,7 +160,7 @@
     </span>
     <span class="bottom-nav-label">Fandom</span>
   </a>
-  <a class="bottom-nav-item" href="#" onclick="document.querySelector('.search-inner input').focus(); return false;">
+  <a class="bottom-nav-item" href="#" onclick="openSearchOverlay(); return false;">
     <span class="bottom-nav-icon">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M21.625 11.5155C17.265 10.3915 13.858 6.9845 12.734 2.6245L12.25 0.747498L11.766 2.6245C10.642 6.9845 7.23505 10.3915 2.87505 11.5155L0.998047 11.9995L2.87505 12.4845C7.23505 13.6085 10.642 17.0155 11.766 21.3745L12.25 23.2525L12.734 21.3745C13.858 17.0155 17.265 13.6085 21.625 12.4845L23.502 11.9995L21.625 11.5155Z" fill="currentColor"/>
