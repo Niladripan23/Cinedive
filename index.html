@@ -1,204 +1,190 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="google-site-verification" content="zPPvZ__F1wGGacreTJ3j63eiuVQAA73Fr6Pg4x2mugY" />
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* =========================================
+   SEARCH OVERLAY LOGIC (UPGRADED)
+========================================= */
+let searchDataCache = []; 
+const RECENT_SEARCHES_KEY = "cinedive_recent_searches";
 
-<title>Cinedive – Discover Movies, Series, Anime & Documentaries</title>
-
-<meta name="description" content="Explore Cinedive to discover trending movies, TV series, anime, and documentaries. Get reviews, ratings, and personalized streaming recommendations in one place like never before.">
-
-<meta name="keywords" content="movies, tv series, anime, documentaries, streaming, movie reviews, trending shows, anime recommendations, documentaries online, entertainment platform, netflix, prime video, crunchyroll, disney marvel, cinedive">
-
-<meta name="author" content="Cinedive">
-
-<meta property="og:title" content="Cinedive – Movies, Series, Anime & Documentaries">
-<meta property="og:description" content="Discover movies, series, anime, and documentaries with reviews and ratings on Cinedive.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://cinedive.vercel.app">
-<meta property="og:image" content="https://cinedive.vercel.app/preview.jpg">
-
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-</head>
-
-<body>
-
-<div class="top-nav">
-  <div class="logo">Cinedive</div>
-
-  <div class="search-box">
-    <div class="search-inner" onclick="openSearchOverlay();">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
-        <path d="M15.6207067,15.6542822 C16.0072308,15.270377 16.6268293,15.270377 17.0133534,15.6542822 L19.5680176,17.7164156 C20.1292102,18.2388171 20.1292102,19.0857973 19.6123694,19.6081989 C19.0955285,20.1306004 18.2575639,20.1306004 17.7407231,19.6081989 L15.6207067,17.1784678 C15.390397,16.8980019 15.3076306,16.6615115 15.3076306,16.416375 C15.3076306,16.1303824 15.4202849,15.8561581 15.6207067,15.6542822 Z M8.57763961,0 C10.8525711,0 13.0343273,0.913436016 14.6429467,2.53936255 C16.2515662,4.16528909 17.1552792,6.37051871 17.1552792,8.66992606 C17.1552792,13.458194 13.3149392,17.3398521 8.57763961,17.3398521 C3.84034006,17.3398521 0,13.458194 0,8.66992606 C0,3.88165812 3.84034006,0 8.57763961,0 Z" fill="#ffffff"/>
-      </svg>
-      <input type="text" placeholder="Find Your Dive..." readonly style="pointer-events: none;">
-    </div>
-  </div>
-
-  <div class="nav-actions">
-    <button class="filter-btn" onclick="showFilters()">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M11.1437 17.8828H4.67114" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.205 17.8837C15.205 19.9254 15.8859 20.6054 17.9267 20.6054C19.9676 20.6054 20.6485 19.9254 20.6485 17.8837C20.6485 15.8419 19.9676 15.1619 17.9267 15.1619C15.8859 15.1619 15.205 15.8419 15.205 17.8837Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M14.1765 7.39415H20.6481" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1153 7.39281C10.1153 5.35192 9.43436 4.67102 7.39346 4.67102C5.35167 4.67102 4.67078 5.35192 4.67078 7.39281C4.67078 9.4346 5.35167 10.1146 7.39346 10.1146C9.43436 10.1146 10.1153 9.4346 10.1153 7.39281Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </div>
-</div>
-
-<div class="container">
-
-<p class="subtitle">Can't decide what to watch?</p>
-<p class="subtitle">Dive into movies, series, animes & more ❤️.</p>
-
-<div id="filters" class="hidden">
-
-<h2>Your Preferences</h2>
-
-<div class="filter-row">
-
-<select id="type">
-<option value="">Type</option>
-<option value="51">Movie</option>
-<option value="52">Series</option>
-<option value="53">Documentary</option>
-</select>
-
-<select id="genre">
-<option value="">Genre</option>
-<option value="1">Action</option>
-<option value="7">Drama</option>
-<option value="11">Thriller</option>
-<option value="2">Comedy</option>
-<option value="3">Romance</option>
-<option value="4">Horror</option>
-<option value="5">Crime</option>
-<option value="6">Sci-Fi</option>
-<option value="8">Adventure</option>
-<option value="9">Fantasy</option>
-<option value="10">History</option>
-<option value="12">Animation</option>
-</select>
-
-<select id="language">
-<option value="">Language</option>
-<option value="en">English</option>
-<option value="hi">Hindi</option>
-<option value="be">Bengali</option>
-<option value="kr">Korean</option>
-<option value="jp">Japanese</option>
-<option value="sp">Spanish</option>
-<option value="sind">South Indian</option>
-</select>
-
-<select id="mood">
-<option value="">Mood</option>
-<option value="31">Fun</option>
-<option value="33">Dark</option>
-<option value="35">Emotional</option>
-<option value="38">Mind-blowing</option>
-<option value="32">Chill</option>
-<option value="34">Mysterious</option>
-<option value="36">Inspiring</option>
-<option value="37">Romantic</option>
-<option value="39">Anime Night</option>
-</select>
-
-</div>
-
-<button class="main-btn" onclick="findSuggestion()">Explore</button>
-
-</div>
-
-<h2 id="results-title"></h2>
-
-<div id="results" class="results-grid"></div>
-
-</div>
-
-<div id="search-overlay" class="search-overlay">
-  <div class="search-overlay-header">
-    <button class="back-btn" onclick="closeSearchOverlay()">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M15 18l-6-6 6-6"/>
-      </svg>
-    </button>
-    <span class="search-overlay-title">Search</span>
-  </div>
+async function openSearchOverlay() {
+  document.getElementById("search-overlay").classList.add("active");
+  document.body.classList.add("search-active"); 
   
-  <div class="search-overlay-input-wrapper">
-    <input type="text" id="overlay-search-input" placeholder="Search movies, anime, series..." oninput="handleRealTimeSearch(this.value)">
-  </div>
+  setTimeout(() => {
+    document.getElementById("overlay-search-input").focus();
+  }, 100);
+
+  // Pre-fetch data
+  if (searchDataCache.length === 0) {
+    try {
+      const response = await fetch("data.json");
+      searchDataCache = await response.json();
+    } catch (e) {
+      console.error("Failed to load search data:", e);
+    }
+  }
+
+  // Render Default State Views
+  renderRecentSearches();
+  populateHorizontalSections();
+}
+
+function closeSearchOverlay() {
+  document.getElementById("search-overlay").classList.remove("active");
+  document.body.classList.remove("search-active");
   
-  <div class="search-overlay-content">
-    <div id="search-overlay-results" class="results-grid"></div>
-    <div id="search-empty-state" class="search-empty-state hidden">No results found</div>
-  </div>
-</div>
+  // Reset overlay to default view
+  document.getElementById("overlay-search-input").value = "";
+  handleRealTimeSearch(""); 
+}
 
-<script src="script.js"></script>
+/* --- RECENT SEARCHES LOGIC --- */
+function getRecentSearches() {
+  return JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY)) || [];
+}
 
-<div class="footer">
-  <p class="footer-sub">
-    © 2026 Cinedive. All rights reserved. Any unauthorized commercial use prohibited.
-  </p>
-</div>
+function saveRecentSearch(query) {
+  if (!query.trim()) return;
+  let searches = getRecentSearches();
+  // Remove duplicates
+  searches = searches.filter(s => s.toLowerCase() !== query.toLowerCase());
+  searches.unshift(query.trim()); // Add to front
+  if (searches.length > 5) searches.pop(); // Keep max 5
+  localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(searches));
+}
 
-<nav class="bottom-nav">
-  <a class="bottom-nav-item" href="#">
-    <span class="bottom-nav-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(2.000000, 3.000000)" fill="currentColor" fill-rule="nonzero">
-          <path d="M15.856,-3.01980663e-14 C18.14,-3.01980663e-14 19.999,1.84201255 19.999,4.10514147 L19.999,4.10514147 L20,6.78245073 C20,6.97864142 19.921,7.16888693 19.781,7.30760762 C19.64,7.44731917 19.45,7.52559727 19.25,7.52559727 C18.429,7.52559727 17.761,8.18749312 17.761,9.00099086 C17.761,9.81448861 18.429,10.4763845 19.25,10.4763845 C19.664,10.4763845 20,10.8093141 20,11.219531 L20,11.219531 L20,13.8958494 C20,16.1589783 18.142,18 15.858,18 L15.858,18 L4.143,18 C1.859,18 0,16.1589783 0,13.8958494 L0,13.8958494 L0,11.219531 C0,10.8093141 0.336,10.4763845 0.75,10.4763845 C1.572,10.4763845 2.24,9.81448861 2.24,9.00099086 C2.24,8.20830122 1.599,7.61180227 0.75,7.61180227 C0.551,7.61180227 0.361,7.53352417 0.22,7.39381262 C0.079,7.25410107 0,7.06484642 0,6.86865573 L0,6.86865573 L0.002,4.10514147 C0.002,1.84201255 1.86,-3.01980663e-14 4.144,-3.01980663e-14 L4.144,-3.01980663e-14 Z M10.002,5.15347352 C9.718,5.15347352 9.464,5.31002973 9.337,5.56170869 L9.337,5.56170869 L8.608,7.02521193 L6.982,7.26004624 C6.701,7.29968072 6.471,7.48992624 6.382,7.75745899 C6.294,8.02499174 6.365,8.31432346 6.569,8.51051415 L6.569,8.51051415 L7.748,9.64802378 L7.47,11.2561929 C7.422,11.5336343 7.535,11.8090939 7.765,11.9745679 C7.895,12.066718 8.046,12.1142794 8.199,12.1142794 C8.316,12.1142794 8.434,12.0855444 8.542,12.0290653 L8.542,12.0290653 L10,11.270065 L11.455,12.0270836 C11.707,12.1608499 12.006,12.1400418 12.235,11.973577 C12.466,11.8090939 12.579,11.5336343 12.531,11.2561929 L12.531,11.2561929 L12.252,9.64802378 L13.431,8.51051415 C13.636,8.31432346 13.707,8.02499174 13.618,7.75745899 C13.53,7.48992624 13.3,7.29968072 13.022,7.2610371 L13.022,7.2610371 L11.393,7.02521193 L10.664,5.56269955 C10.539,5.31102059 10.285,5.15446438 10.002,5.15347352 L10.002,5.15347352 Z"></path>
-        </g>
-      </svg>
-    </span>
-    <span class="bottom-nav-label">Fandom</span>
-  </a>
-  <a class="bottom-nav-item" href="#" onclick="openSearchOverlay(); return false;">
-    <span class="bottom-nav-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.625 11.5155C17.265 10.3915 13.858 6.9845 12.734 2.6245L12.25 0.747498L11.766 2.6245C10.642 6.9845 7.23505 10.3915 2.87505 11.5155L0.998047 11.9995L2.87505 12.4845C7.23505 13.6085 10.642 17.0155 11.766 21.3745L12.25 23.2525L12.734 21.3745C13.858 17.0155 17.265 13.6085 21.625 12.4845L23.502 11.9995L21.625 11.5155Z" fill="currentColor"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M19.0011 7.74691C19.0011 6.58491 20.2751 5.24791 21.5001 5.24791C20.3211 5.24791 19.0011 3.89691 19.0011 2.74991C19.0011 3.89691 17.6931 5.24791 16.5031 5.24791C17.6481 5.24791 19.0011 6.57791 19.0011 7.74691Z" fill="currentColor"/>
-      </svg>
-    </span>
-    <span class="bottom-nav-label">Updates</span>
-  </a>
-  <a class="bottom-nav-item active" href="#">
-    <span class="bottom-nav-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(2.500000, 2.000000)" fill="currentColor" fill-rule="nonzero">
-          <path d="M6.63477851,18.7733424 L6.63477851,15.7156161 C6.63477851,14.9350667 7.27217143,14.3023065 8.05843544,14.3023065 L10.9326107,14.3023065 C11.310188,14.3023065 11.6723007,14.4512083 11.9392882,14.7162553 C12.2062757,14.9813022 12.3562677,15.3407831 12.3562677,15.7156161 L12.3562677,18.7733424 C12.3538816,19.0978491 12.4820659,19.4098788 12.7123708,19.6401787 C12.9426757,19.8704786 13.2560494,20 13.5829406,20 L15.5438266,20 C16.4596364,20.0023499 17.3387522,19.6428442 17.9871692,19.0008077 C18.6355861,18.3587712 19,17.4869804 19,16.5778238 L19,7.86685918 C19,7.13246047 18.6720694,6.43584231 18.1046183,5.96466895 L11.4340245,0.675869015 C10.2736604,-0.251438297 8.61111277,-0.221497907 7.48539114,0.74697893 L0.967012253,5.96466895 C0.37274068,6.42195254 0.0175522924,7.12063643 0,7.86685918 L0,16.568935 C0,18.4638535 1.54738155,20 3.45617342,20 L5.37229029,20 C6.05122667,20 6.60299723,19.4562152 6.60791706,18.7822311 L6.63477851,18.7733424 Z"></path>
-        </g>
-      </svg>
-    </span>
-    <span class="bottom-nav-label">Home</span>
-  </a>
-  <a class="bottom-nav-item" href="#">
-    <span class="bottom-nav-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(4.000000, 2.000000)" fill="currentColor" fill-rule="nonzero">
-          <path d="M11.0699,0.0001 C13.7799,0.0001 15.9699,1.0701 15.9999,3.7901 L15.9999,3.7901 L15.9999,18.9701 C15.9999,19.1401 15.9599,19.3101 15.8799,19.4601 C15.7499,19.7001 15.5299,19.8801 15.2599,19.9601 C14.9999,20.0401 14.7099,20.0001 14.4699,19.8601 L14.4699,19.8601 L7.9899,16.6201 L1.4999,19.8601 C1.3509,19.9391 1.1799,19.9901 1.0099,19.9901 C0.4499,19.9901 -0.0001,19.5301 -0.0001,18.9701 L-0.0001,18.9701 L-0.0001,3.7901 C-0.0001,1.0701 2.1999,0.0001 4.8999,0.0001 L4.8999,0.0001 Z M11.7499,6.0401 L4.2199,6.0401 C3.7899,6.0401 3.4399,6.3901 3.4399,6.8301 C3.4399,7.2691 3.7899,7.6201 4.2199,7.6201 L4.2199,7.6201 L11.7499,7.6201 C12.1799,7.6201 12.5299,7.2691 12.5299,6.8301 C12.5299,6.3901 12.1799,6.0401 11.7499,6.0401 L11.7499,6.0401 Z"></path>
-        </g>
-      </svg>
-    </span>
-    <span class="bottom-nav-label">Watchlist</span>
-  </a>
-  <a class="bottom-nav-item" href="#">
-    <span class="bottom-nav-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.2505 13.8307C8.33752 13.8307 4.90552 16.1327 4.90552 18.7557C4.90552 22.1307 10.4345 22.1307 12.2505 22.1307C14.0665 22.1307 19.5945 22.1307 19.5945 18.7337C19.5945 16.1217 16.1625 13.8307 12.2505 13.8307Z" fill="currentColor"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.212 11.6423H12.243C14.938 11.6423 17.13 9.45026 17.13 6.75526C17.13 4.06126 14.938 1.86926 12.243 1.86926C9.54805 1.86926 7.35605 4.06126 7.35605 6.75326C7.34705 9.43926 9.52405 11.6323 12.212 11.6423Z" fill="currentColor"/>
-      </svg>
-    </span>
-    <span class="bottom-nav-label">Profile</span>
-  </a>
-</nav>
+function renderRecentSearches() {
+  const list = document.getElementById("recent-searches-list");
+  const section = document.getElementById("recent-searches-section");
+  const searches = getRecentSearches();
 
-</body>
-</html>
+  if (searches.length === 0) {
+    section.style.display = "none";
+    return;
+  }
+
+  section.style.display = "block";
+  list.innerHTML = searches.map(query => `
+    <li class="recent-search-item" onclick="applyRecentSearch('${query.replace(/'/g, "\\'")}')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      ${query}
+    </li>
+  `).join("");
+}
+
+function applyRecentSearch(query) {
+  const input = document.getElementById("overlay-search-input");
+  input.value = query;
+  handleRealTimeSearch(query);
+}
+
+function handleSearchEnter(event, query) {
+  if (event.key === "Enter") {
+    saveRecentSearch(query);
+    event.target.blur(); // Dismiss keyboard on mobile
+  }
+}
+
+/* --- TRENDING & FEATURED LOGIC --- */
+function populateHorizontalSections() {
+  if (!searchDataCache || searchDataCache.length === 0) return;
+  
+  const trendingContainer = document.getElementById("trending-scroll");
+  const featuredContainer = document.getElementById("featured-scroll");
+
+  // Prevent re-rendering if already populated
+  if (trendingContainer.innerHTML.trim() !== "") return;
+
+  // Shuffle cache to simulate Trending and Featured lists
+  const shuffled = [...searchDataCache].sort(() => 0.5 - Math.random());
+  
+  trendingContainer.innerHTML = generateHorizontalCards(shuffled.slice(0, 8));
+  featuredContainer.innerHTML = generateHorizontalCards(shuffled.slice(8, 16));
+}
+
+function generateHorizontalCards(items) {
+  let html = "";
+  // Reuses exact movie-card HTML architecture to inherit global styling, modified slightly by CSS
+  items.forEach(movie => {
+    const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
+    html += `
+      <div class="movie-card" onclick="applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
+        <img src="${getImageUrl(movie.p)}" loading="lazy">
+        <div class="movie-info">
+          <div class="movie-title">${movie.t}</div>
+          <div class="movie-meta" style="font-size:11px;">${genreNames}</div>
+        </div>
+      </div>
+    `;
+  });
+  return html;
+}
+
+/* --- REAL-TIME SEARCH FILTERING --- */
+function handleRealTimeSearch(query) {
+  const defaultState = document.getElementById("search-default-state");
+  const resultsState = document.getElementById("search-results-state");
+  const resultsGrid = document.getElementById("search-overlay-results");
+  const emptyState = document.getElementById("search-empty-state");
+
+  query = query.toLowerCase().trim();
+
+  // View Toggling
+  if (!query) {
+    defaultState.classList.remove("hidden");
+    resultsState.classList.add("hidden");
+    renderRecentSearches(); // Refresh recent searches list
+    return;
+  }
+
+  defaultState.classList.add("hidden");
+  resultsState.classList.remove("hidden");
+
+  // Filtering
+  const filtered = searchDataCache.filter(item => {
+    const titleMatch = item.t.toLowerCase().includes(query);
+    const genreMatch = item.g ? item.g.some(id => MAP.g[id] && MAP.g[id].toLowerCase().includes(query)) : false;
+    const langName = MAP.l[item.l] ? MAP.l[item.l].toLowerCase() : "";
+    const typeName = MAP.ty[item.ty] ? MAP.ty[item.ty].toLowerCase() : "";
+
+    return titleMatch || genreMatch || langName.includes(query) || typeName.includes(query);
+  });
+
+  // Displaying Results
+  if (filtered.length === 0) {
+    resultsGrid.innerHTML = "";
+    emptyState.classList.remove("hidden");
+  } else {
+    emptyState.classList.add("hidden");
+    renderOverlayCards(filtered);
+  }
+}
+
+function renderOverlayCards(results) {
+  const resultsGrid = document.getElementById("search-overlay-results");
+  let html = "";
+  
+  results.forEach(movie => {
+    const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
+    const langName = MAP.l[movie.l] || movie.l;
+
+    html += `
+      <div class="movie-card">
+        <img src="${getImageUrl(movie.p)}" loading="lazy">
+        <div class="movie-info">
+          <div class="movie-title">${movie.t}</div>
+          <div class="movie-meta">
+            ${genreNames}<br>
+            ${langName.toUpperCase()}<br>
+            <span style="font-size:0.85em; color:#FFD700; font-weight:600;">
+              ${movie.m ? movie.m.map(id => MAP.m[id]).join(" • ") : ""}
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  resultsGrid.innerHTML = html;
+}
