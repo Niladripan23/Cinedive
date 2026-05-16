@@ -162,35 +162,135 @@ h1 {
   transform: scale(1.05);
 }
 
-/* 🔥 SELECT */
-select {
-  padding: 10px;
-  margin: 6px;
-  border-radius: 6px;
-  border: 1px solid #2a2a2a;
-  background: #1B1B1B;
-  color: #FFFFFF;
-  font-size: 14px;
-  transition: border-color 0.2s;
-}
-
-select:focus {
-  outline: none;
-  border-color: #EFE297;
-}
-
-/* 🔥 FILTER ROW STACK ON MOBILE */
-.filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
 .hidden {
   display: none;
 }
+
+
+/* =========================================
+   🔥 UPGRADED PREFERENCES / FILTER UI
+========================================= */
+
+.preferences-container {
+  background: #0B0B0B;
+  padding: 15px 0 25px 0;
+  text-align: left;
+  animation: fadeIn 0.4s ease;
+}
+
+.preferences-header {
+  margin-bottom: 18px;
+  padding: 0 5px;
+}
+
+.preferences-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Horizontal Scrollable Row */
+.preferences-scroll-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+  -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+}
+
+.preferences-scroll-row::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+/* Premium Pill Select Design */
+.premium-select-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* Custom Dropdown Arrow */
+.premium-select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0; 
+  height: 0; 
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #B0B0B0;
+  pointer-events: none;
+  transition: border-top-color 0.2s;
+}
+
+.premium-pill-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #1B1B1B;
+  border: 1px solid #2A2A2A;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 36px 10px 18px;
+  border-radius: 40px; /* Perfect pill shape */
+  outline: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.premium-pill-select:hover {
+  background: #222222;
+  border-color: #3A3A3A;
+}
+
+.premium-pill-select:focus {
+  border-color: #EFE297;
+  box-shadow: 0 0 14px rgba(239, 226, 151, 0.15);
+}
+
+.premium-pill-select:focus + .premium-select-wrapper::after {
+  border-top-color: #EFE297;
+}
+
+/* Style dropdown options natively (mostly applies to desktop) */
+.premium-pill-select option {
+  background: #1B1B1B;
+  color: #FFFFFF;
+  padding: 10px;
+}
+
+/* Clear Filters Button */
+.preferences-actions {
+  margin-top: 10px;
+  padding: 0 5px;
+}
+
+.preferences-clear-btn {
+  background: transparent;
+  border: 1.5px solid #3A3A3A;
+  color: #B0B0B0;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preferences-clear-btn:hover {
+  border-color: #EFE297;
+  color: #EFE297;
+  background: rgba(239, 226, 151, 0.08);
+}
+
 
 /* 🔥 GRID — ALWAYS 2 COLUMNS MOBILE */
 .results-grid {
@@ -345,6 +445,7 @@ select:focus {
   font-weight: 600;
   letter-spacing: 0.3px;
 }
+
 
 /* =========================================
    🔥 UPGRADED SEARCH OVERLAY UI
