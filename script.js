@@ -12,35 +12,66 @@ function showFilters() {
   document.getElementById("filters").classList.remove("hidden");
 }
 
+function clearFilters() {
+  // Reset all select elements to default
+  document.getElementById("type").value = "";
+  document.getElementById("genre").value = "";
+  document.getElementById("language").value = "";
+  document.getElementById("mood").value = "";
+  document.getElementById("year").value = "";
+  document.getElementById("popularity").value = "";
+  document.getElementById("platform").value = "";
+  
+  // Refresh the grid
+  findSuggestion();
+}
+
 function getImageUrl(path) {
   return path ? "https://image.tmdb.org/t/p/w500" + path : "https://via.placeholder.com/300x450?text=No+Poster";
 }
 
-// 🎯 FIND PICKS (Homepage Explore Button)
+// 🎯 FIND PICKS (Homepage Auto-Filter)
 async function findSuggestion() {
   const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = `<p style="color:#aaa; text-align:center; width:100%;">Finding your picks...</p>`;
+  resultsDiv.innerHTML = `<p style="color:#B0B0B0; text-align:center; width:100%; padding:20px 0;">Updating your picks...</p>`;
 
   try {
     const response = await fetch("data.json");
     const data = await response.json();
 
-    const type = parseInt(document.getElementById("type").value);
-    const genre = parseInt(document.getElementById("genre").value);
-    const language = document.getElementById("language").value;
-    const mood = parseInt(document.getElementById("mood").value);
+    const typeVal = document.getElementById("type").value;
+    const genreVal = parseInt(document.getElementById("genre").value);
+    const langVal = document.getElementById("language").value;
+    const moodVal = parseInt(document.getElementById("mood").value);
+    const popVal = document.getElementById("popularity").value;
 
     let results = data.filter(item => {
-      return (!type || item.ty === type) &&
-             (!genre || (item.g && item.g.includes(genre))) &&
-             (!language || item.l === language) &&
-             (!mood || (item.m && item.m.includes(mood)));
+      // Custom mapping for Anime since it spans movies & series in JSON
+      let matchType = true;
+      if (typeVal === "anime") {
+        matchType = (item.l === "jp" || (item.g && item.g.includes(12))); // 12 is Animation
+      } else if (typeVal) {
+        matchType = (item.ty === parseInt(typeVal));
+      }
+
+      const matchGenre = !genreVal || (item.g && item.g.includes(genreVal));
+      const matchLang = !langVal || (item.l === langVal);
+      const matchMood = !moodVal || (item.m && item.m.includes(moodVal));
+
+      return matchType && matchGenre && matchLang && matchMood;
     });
+
+    // Simulate Popularity Sorting
+    if (popVal === "trending" || popVal === "recently_popular") {
+      results = results.sort(() => 0.5 - Math.random());
+    } else if (popVal === "top_rated" || popVal === "most_watched") {
+      results = results.sort((a, b) => b.id - a.id);
+    }
 
     displayResults(results, "Your Picks 🍿");
   } catch (e) {
     console.error("Filter Error:", e);
-    resultsDiv.innerHTML = `<p style="color:#ff4d4d;">Error loading data. Check data.json</p>`;
+    resultsDiv.innerHTML = `<p style="color:#ff4d4d; width:100%; text-align:center;">Error loading data.</p>`;
   }
 }
 
@@ -50,12 +81,12 @@ function displayResults(results, title) {
   document.getElementById("results-title").innerText = title;
 
   if (results.length === 0) {
-    resultsDiv.innerHTML = `<p style="color:#aaa; text-align:center; width:100%; min-height:40vh; display:flex; align-items:center; justify-content:center;">Sorry, No matches found. Try different filters.</p>`;
+    resultsDiv.innerHTML = `<p style="color:#B0B0B0; text-align:center; width:100%; min-height:30vh; display:flex; align-items:center; justify-content:center;">Sorry, no matches found. Try clearing some filters.</p>`;
     return;
   }
 
-  // Limit to 6 random from results
-  const finalSelection = results.sort(() => 0.5 - Math.random()).slice(0, 6);
+  // Limit to 6 random from results (or top 6 if sorted)
+  const finalSelection = results.slice(0, 6);
 
   let html = "";
   finalSelection.forEach(movie => {
@@ -63,7 +94,7 @@ function displayResults(results, title) {
     const langName = MAP.l[movie.l] || movie.l;
 
     html += `
-      <div class="movie-card">
+      <div class="movie-card" onclick="openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
         <img src="${getImageUrl(movie.p)}" loading="lazy">
         <div class="movie-info">
           <div class="movie-title">${movie.t}</div>
@@ -193,7 +224,6 @@ function populateHorizontalSections() {
 
 function generateHorizontalCards(items) {
   let html = "";
-  // Reuses exact movie-card HTML architecture to inherit global styling, modified slightly by CSS
   items.forEach(movie => {
     const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
     html += `
@@ -222,7 +252,7 @@ function handleRealTimeSearch(query) {
   if (!query) {
     defaultState.classList.remove("hidden");
     resultsState.classList.add("hidden");
-    renderRecentSearches(); // Refresh recent searches list to ensure it's up to date
+    renderRecentSearches(); 
     return;
   }
 
@@ -258,7 +288,7 @@ function renderOverlayCards(results) {
     const langName = MAP.l[movie.l] || movie.l;
 
     html += `
-      <div class="movie-card">
+      <div class="movie-card" onclick="applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
         <img src="${getImageUrl(movie.p)}" loading="lazy">
         <div class="movie-info">
           <div class="movie-title">${movie.t}</div>
