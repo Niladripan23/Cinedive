@@ -51,54 +51,106 @@
     <p class="subtitle">Can't decide what to watch?</p>
     <p class="subtitle">Dive into movies, series, animes & more ❤️.</p>
   
-    <div id="filters" class="hidden">
-      <h2>Your Preferences</h2>
-      <div class="filter-row">
-        <select id="type">
-          <option value="">Type</option>
-          <option value="51">Movie</option>
-          <option value="52">Series</option>
-          <option value="53">Documentary</option>
-        </select>
-        <select id="genre">
-          <option value="">Genre</option>
-          <option value="1">Action</option>
-          <option value="7">Drama</option>
-          <option value="11">Thriller</option>
-          <option value="2">Comedy</option>
-          <option value="3">Romance</option>
-          <option value="4">Horror</option>
-          <option value="5">Crime</option>
-          <option value="6">Sci-Fi</option>
-          <option value="8">Adventure</option>
-          <option value="9">Fantasy</option>
-          <option value="10">History</option>
-          <option value="12">Animation</option>
-        </select>
-        <select id="language">
-          <option value="">Language</option>
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-          <option value="be">Bengali</option>
-          <option value="kr">Korean</option>
-          <option value="jp">Japanese</option>
-          <option value="sp">Spanish</option>
-          <option value="sind">South Indian</option>
-        </select>
-        <select id="mood">
-          <option value="">Mood</option>
-          <option value="31">Fun</option>
-          <option value="33">Dark</option>
-          <option value="35">Emotional</option>
-          <option value="38">Mind-blowing</option>
-          <option value="32">Chill</option>
-          <option value="34">Mysterious</option>
-          <option value="36">Inspiring</option>
-          <option value="37">Romantic</option>
-          <option value="39">Anime Night</option>
-        </select>
+    <div id="filters" class="preferences-container hidden">
+      <div class="preferences-header">
+        <h2 class="preferences-title">Your Preferences</h2>
       </div>
-      <button class="main-btn" onclick="findSuggestion()">Explore</button>
+      
+      <div class="preferences-scroll-row">
+        
+        <div class="premium-select-wrapper">
+          <select id="type" class="premium-pill-select" onchange="findSuggestion()">
+            <option value="">Content Type</option>
+            <option value="51">Movie</option>
+            <option value="52">Series</option>
+            <option value="anime">Anime</option>
+            <option value="53">Documentary</option>
+          </select>
+        </div>
+
+        <div class="premium-select-wrapper">
+          <select id="genre" class="premium-pill-select" onchange="findSuggestion()">
+            <option value="">Genre</option>
+            <option value="1">Action</option>
+            <option value="7">Drama</option>
+            <option value="11">Thriller</option>
+            <option value="2">Comedy</option>
+            <option value="3">Romance</option>
+            <option value="4">Horror</option>
+            <option value="5">Crime</option>
+            <option value="6">Sci-Fi</option>
+            <option value="8">Adventure</option>
+            <option value="9">Fantasy</option>
+            <option value="10">History</option>
+            <option value="12">Animation</option>
+          </select>
+        </div>
+
+        <div class="premium-select-wrapper">
+          <select id="mood" class="premium-pill-select" onchange="findSuggestion()">
+            <option value="">Mood</option>
+            <option value="31">Fun</option>
+            <option value="33">Dark</option>
+            <option value="35">Emotional</option>
+            <option value="38">Mind-blowing</option>
+            <option value="32">Chill</option>
+            <option value="34">Mysterious</option>
+            <option value="36">Inspiring</option>
+            <option value="37">Romantic</option>
+            <option value="39">Anime Night</option>
+          </select>
+        </div>
+
+        <div class="premium-select-wrapper">
+          <select id="language" class="premium-pill-select" onchange="findSuggestion()">
+            <option value="">Language</option>
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="be">Bengali</option>
+            <option value="kr">Korean</option>
+            <option value="jp">Japanese</option>
+            <option value="sp">Spanish</option>
+            <option value="sind">South Indian</option>
+          </select>
+        </div>
+
+        <div class="premium-select-wrapper">
+          <select id="year" class="premium-pill-select" onchange="findSuggestion()">
+            <option value="">Released Year</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2020s">2020s</option>
+            <option value="2010s">2010s</option>
+            <option value="classics">Classics</option>
+          </select>
+        </div>
+
+        <div class="premium-select-wrapper">
+          <select id="popularity" class="premium-pill-select" onchange="findSuggestion()">
+            <option value="">Popularity</option>
+            <option value="trending">Trending</option>
+            <option value="most_watched">Most Watched</option>
+            <option value="top_rated">Top Rated</option>
+            <option value="recently_popular">Recently Popular</option>
+          </select>
+        </div>
+
+        <div class="premium-select-wrapper">
+          <select id="platform" class="premium-pill-select" onchange="findSuggestion()">
+            <option value="">Platform</option>
+            <option value="netflix">Netflix</option>
+            <option value="prime">Prime Video</option>
+            <option value="disney">Disney+</option>
+            <option value="hulu">Hulu</option>
+            <option value="crunchyroll">Crunchyroll</option>
+          </select>
+        </div>
+
+      </div>
+      
+      <div class="preferences-actions">
+        <button class="preferences-clear-btn" onclick="clearFilters()">Clear All</button>
+      </div>
     </div>
   
     <h2 id="results-title"></h2>
@@ -134,20 +186,17 @@
         
         <div class="search-section" id="recent-searches-section" style="display: none;">
           <h3 class="search-section-title">Your Recent Searches</h3>
-          <ul class="recent-searches-list" id="recent-searches-list">
-            </ul>
+          <ul class="recent-searches-list" id="recent-searches-list"></ul>
         </div>
   
         <div class="search-section">
           <h3 class="search-section-title">Trending</h3>
-          <div class="horizontal-scroll" id="trending-scroll">
-            </div>
+          <div class="horizontal-scroll" id="trending-scroll"></div>
         </div>
   
         <div class="search-section">
           <h3 class="search-section-title">Featured</h3>
-          <div class="horizontal-scroll" id="featured-scroll">
-            </div>
+          <div class="horizontal-scroll" id="featured-scroll"></div>
         </div>
         
       </div>
