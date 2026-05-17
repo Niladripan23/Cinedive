@@ -173,8 +173,8 @@ h1 {
 
 .preferences-container {
   background: #0B0B0B;
-  padding: 15px 0 25px 0;
-  text-align: left;
+  padding: 10px 0 25px 0;
+  text-align: center; /* FIX: Centers the entire panel text */
   animation: fadeIn 0.4s ease;
 }
 
@@ -191,26 +191,20 @@ h1 {
   letter-spacing: 0.3px;
 }
 
-/* Horizontal Scrollable Row */
+/* FIX: Centered Flex Wrap for Desktop & Mobile Balance */
 .preferences-scroll-row {
   display: flex;
+  flex-wrap: wrap; /* Allows pills to wrap neatly instead of forcing a shift */
+  justify-content: center; /* Perfectly centers all the filter pills */
+  align-items: center;
   gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none; /* Hide scrollbar Firefox */
-  -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
-}
-
-.preferences-scroll-row::-webkit-scrollbar {
-  display: none; /* Hide scrollbar Chrome/Safari */
+  margin-bottom: 16px;
 }
 
 /* Premium Pill Select Design */
 .premium-select-wrapper {
   position: relative;
   flex-shrink: 0;
-  scroll-snap-align: start;
 }
 
 /* Custom Dropdown Arrow */
@@ -260,7 +254,7 @@ h1 {
   border-top-color: #EFE297;
 }
 
-/* Style dropdown options natively (mostly applies to desktop) */
+/* Style dropdown options natively */
 .premium-pill-select option {
   background: #1B1B1B;
   color: #FFFFFF;
@@ -269,7 +263,7 @@ h1 {
 
 /* Clear Filters Button */
 .preferences-actions {
-  margin-top: 10px;
+  margin-top: 5px;
   padding: 0 5px;
 }
 
