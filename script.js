@@ -8,16 +8,12 @@ const MAP = {
   l: { "en": "English", "hi": "Hindi", "be": "Bengali", "sp": "Spanish", "jp": "Japanese", "kr": "Korean", "sind": "South Indian" }
 };
 
-// Auto-load movies when the page first opens
-window.addEventListener('DOMContentLoaded', () => {
-  findSuggestion();
-});
-
 function showFilters() {
   document.getElementById("filters").classList.remove("hidden");
 }
 
 function clearFilters() {
+  // Reset all select elements to default
   document.getElementById("type").value = "";
   document.getElementById("genre").value = "";
   document.getElementById("language").value = "";
@@ -25,6 +21,8 @@ function clearFilters() {
   document.getElementById("year").value = "";
   document.getElementById("popularity").value = "";
   document.getElementById("platform").value = "";
+  
+  // Refresh the grid
   findSuggestion();
 }
 
@@ -48,9 +46,10 @@ async function findSuggestion() {
     const popVal = document.getElementById("popularity").value;
 
     let results = data.filter(item => {
+      // Custom mapping for Anime since it spans movies & series in JSON
       let matchType = true;
       if (typeVal === "anime") {
-        matchType = (item.l === "jp" || (item.g && item.g.includes(12))); 
+        matchType = (item.l === "jp" || (item.g && item.g.includes(12))); // 12 is Animation
       } else if (typeVal) {
         matchType = (item.ty === parseInt(typeVal));
       }
@@ -62,9 +61,10 @@ async function findSuggestion() {
       return matchType && matchGenre && matchLang && matchMood;
     });
 
-    if (popVal === "trending" || popVal === "generational") {
+    // Simulate Popularity Sorting
+    if (popVal === "trending" || popVal === "recently_popular") {
       results = results.sort(() => 0.5 - Math.random());
-    } else if (popVal === "critically_acclaimed" || popVal === "regional_hit") {
+    } else if (popVal === "top_rated" || popVal === "most_watched") {
       results = results.sort((a, b) => b.id - a.id);
     }
 
@@ -85,16 +85,17 @@ function displayResults(results, title) {
     return;
   }
 
+  // Limit to 6 random from results (or top 6 if sorted)
   const finalSelection = results.slice(0, 6);
+
   let html = "";
-  
   finalSelection.forEach(movie => {
     const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
     const langName = MAP.l[movie.l] || movie.l;
 
     html += `
       <div class="movie-card" onclick="openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
-        <img src="${getImageUrl(movie.p)}" alt="${movie.t}">
+        <img src="${getImageUrl(movie.p)}" loading="lazy">
         <div class="movie-info">
           <div class="movie-title">${movie.t}</div>
           <div class="movie-meta">
@@ -126,6 +127,7 @@ async function openSearchOverlay() {
     document.getElementById("overlay-search-input").focus();
   }, 100);
 
+  // Pre-fetch data
   if (searchDataCache.length === 0) {
     try {
       const response = await fetch("data.json");
@@ -135,6 +137,7 @@ async function openSearchOverlay() {
     }
   }
 
+  // Render Default State Views (Recent, Trending, Featured)
   renderRecentSearches();
   populateHorizontalSections();
 }
@@ -142,6 +145,8 @@ async function openSearchOverlay() {
 function closeSearchOverlay() {
   document.getElementById("search-overlay").classList.remove("active");
   document.body.classList.remove("search-active");
+  
+  // Reset overlay to default view
   document.getElementById("overlay-search-input").value = "";
   handleRealTimeSearch(""); 
 }
@@ -154,9 +159,14 @@ function getRecentSearches() {
 function saveRecentSearch(query) {
   if (!query.trim()) return;
   let searches = getRecentSearches();
+  
+  // Remove duplicates
   searches = searches.filter(s => s.toLowerCase() !== query.toLowerCase());
+  
+  // Add to front and keep max 5
   searches.unshift(query.trim()); 
   if (searches.length > 5) searches.pop(); 
+  
   localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(searches));
 }
 
@@ -191,7 +201,7 @@ function applyRecentSearch(query) {
 function handleSearchEnter(event, query) {
   if (event.key === "Enter") {
     saveRecentSearch(query);
-    event.target.blur(); 
+    event.target.blur(); // Dismiss keyboard on mobile devices
   }
 }
 
@@ -202,8 +212,10 @@ function populateHorizontalSections() {
   const trendingContainer = document.getElementById("trending-scroll");
   const featuredContainer = document.getElementById("featured-scroll");
 
+  // Prevent re-rendering if already populated
   if (trendingContainer.innerHTML.trim() !== "") return;
 
+  // Shuffle cache to simulate Trending and Featured lists
   const shuffled = [...searchDataCache].sort(() => 0.5 - Math.random());
   
   trendingContainer.innerHTML = generateHorizontalCards(shuffled.slice(0, 8));
@@ -216,7 +228,7 @@ function generateHorizontalCards(items) {
     const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
     html += `
       <div class="movie-card" onclick="applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
-        <img src="${getImageUrl(movie.p)}" alt="${movie.t}">
+        <img src="${getImageUrl(movie.p)}" loading="lazy">
         <div class="movie-info">
           <div class="movie-title">${movie.t}</div>
           <div class="movie-meta" style="font-size:11px;">${genreNames}</div>
@@ -236,6 +248,7 @@ function handleRealTimeSearch(query) {
 
   query = query.toLowerCase().trim();
 
+  // View Toggling: If empty, show default view. If typing, show results.
   if (!query) {
     defaultState.classList.remove("hidden");
     resultsState.classList.add("hidden");
@@ -246,6 +259,7 @@ function handleRealTimeSearch(query) {
   defaultState.classList.add("hidden");
   resultsState.classList.remove("hidden");
 
+  // Filter based on Title, Genre, Language, or Type
   const filtered = searchDataCache.filter(item => {
     const titleMatch = item.t.toLowerCase().includes(query);
     const genreMatch = item.g ? item.g.some(id => MAP.g[id] && MAP.g[id].toLowerCase().includes(query)) : false;
@@ -255,6 +269,7 @@ function handleRealTimeSearch(query) {
     return titleMatch || genreMatch || langName.includes(query) || typeName.includes(query);
   });
 
+  // Displaying Results
   if (filtered.length === 0) {
     resultsGrid.innerHTML = "";
     emptyState.classList.remove("hidden");
@@ -274,7 +289,7 @@ function renderOverlayCards(results) {
 
     html += `
       <div class="movie-card" onclick="applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
-        <img src="${getImageUrl(movie.p)}" alt="${movie.t}">
+        <img src="${getImageUrl(movie.p)}" loading="lazy">
         <div class="movie-info">
           <div class="movie-title">${movie.t}</div>
           <div class="movie-meta">
