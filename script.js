@@ -23,21 +23,35 @@ function buildCard(movie, onclickStr) {
   const mood = movie.m && movie.m[0]
     ? `<span class="tag tag-mood">${MAP.m[movie.m[0]]}</span>` : "";
 
+  const initial = movie.t.trim().charAt(0).toUpperCase();
+  const imgSrc = getImageUrl(movie.p);
+
   return `
     <div class="movie-card" onclick="${onclickStr}">
-      <img src="${getImageUrl(movie.p)}" loading="lazy">
-      <div class="movie-card-overlay"></div>
-      <div class="movie-card-top">
-        <div class="movie-rating">★ 8.5</div>
-        <div class="movie-watchlist-btn" onclick="event.stopPropagation()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+      <div class="movie-poster">
+        <img src="${imgSrc}" loading="lazy" alt="${movie.t}"
+          onerror="this.closest('.movie-poster').classList.add('broken')">
+        <div class="movie-poster-placeholder">
+          <span class="placeholder-initial">${initial}</span>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#EFE297" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.2">
+            <rect x="2" y="2" width="20" height="20" rx="4"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
           </svg>
         </div>
-      </div>
-      <div class="movie-info">
-        <div class="movie-title">${movie.t}</div>
-        <div class="movie-tags">${genres}${mood}</div>
+        <div class="movie-card-overlay"></div>
+        <div class="movie-card-top">
+          <div class="movie-rating">★ 8.5</div>
+          <div class="movie-watchlist-btn" onclick="event.stopPropagation()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">${movie.t}</div>
+          <div class="movie-tags">${genres}${mood}</div>
+        </div>
       </div>
     </div>
   `;
