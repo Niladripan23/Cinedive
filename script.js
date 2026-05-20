@@ -8,6 +8,41 @@ const MAP = {
   l: { "en": "English", "hi": "Hindi", "be": "Bengali", "sp": "Spanish", "jp": "Japanese", "kr": "Korean", "sind": "South Indian" }
 };
 
+// 🎬 TAG COLOR MAP
+const TAG_CLASS = {
+  1:"tag-action", 2:"tag-comedy", 3:"tag-romance", 4:"tag-horror",
+  5:"tag-crime", 6:"tag-scifi", 7:"tag-drama", 8:"tag-adventure",
+  9:"tag-fantasy", 10:"tag-history", 11:"tag-thriller", 12:"tag-animation"
+};
+
+// 🎬 UNIFIED CARD BUILDER
+function buildCard(movie, onclickStr) {
+  const genres = (movie.g || []).slice(0, 2).map(id =>
+    `<span class="tag ${TAG_CLASS[id] || 'tag-drama'}">${MAP.g[id]}</span>`
+  ).join("");
+  const mood = movie.m && movie.m[0]
+    ? `<span class="tag tag-mood">${MAP.m[movie.m[0]]}</span>` : "";
+
+  return `
+    <div class="movie-card" onclick="${onclickStr}">
+      <img src="${getImageUrl(movie.p)}" loading="lazy">
+      <div class="movie-card-overlay"></div>
+      <div class="movie-card-top">
+        <div class="movie-rating">★ 8.5</div>
+        <div class="movie-watchlist-btn" onclick="event.stopPropagation()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="movie-info">
+        <div class="movie-title">${movie.t}</div>
+        <div class="movie-tags">${genres}${mood}</div>
+      </div>
+    </div>
+  `;
+}
+
 function showFilters() {
   document.getElementById("filters").classList.remove("hidden");
 }
@@ -90,24 +125,8 @@ function displayResults(results, title) {
 
   let html = "";
   finalSelection.forEach(movie => {
-    const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
-    const langName = MAP.l[movie.l] || movie.l;
-
-    html += `
-      <div class="movie-card" onclick="openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
-        <img src="${getImageUrl(movie.p)}" loading="lazy">
-        <div class="movie-info">
-          <div class="movie-title">${movie.t}</div>
-          <div class="movie-meta">
-            ${genreNames}<br>
-            ${langName.toUpperCase()}<br>
-            <span style="font-size:0.85em; color:#FFD700; font-weight:600;">
-              ${movie.m ? movie.m.map(id => MAP.m[id]).join(" • ") : ""}
-            </span>
-          </div>
-        </div>
-      </div>
-    `;
+    const onclick = `openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    html += buildCard(movie, onclick);
   });
 
   resultsDiv.innerHTML = html;
@@ -225,16 +244,8 @@ function populateHorizontalSections() {
 function generateHorizontalCards(items) {
   let html = "";
   items.forEach(movie => {
-    const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
-    html += `
-      <div class="movie-card" onclick="applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
-        <img src="${getImageUrl(movie.p)}" loading="lazy">
-        <div class="movie-info">
-          <div class="movie-title">${movie.t}</div>
-          <div class="movie-meta" style="font-size:11px;">${genreNames}</div>
-        </div>
-      </div>
-    `;
+    const onclick = `applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    html += buildCard(movie, onclick);
   });
   return html;
 }
@@ -282,27 +293,9 @@ function handleRealTimeSearch(query) {
 function renderOverlayCards(results) {
   const resultsGrid = document.getElementById("search-overlay-results");
   let html = "";
-  
   results.forEach(movie => {
-    const genreNames = movie.g ? movie.g.map(id => MAP.g[id]).join(", ") : "Various";
-    const langName = MAP.l[movie.l] || movie.l;
-
-    html += `
-      <div class="movie-card" onclick="applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')">
-        <img src="${getImageUrl(movie.p)}" loading="lazy">
-        <div class="movie-info">
-          <div class="movie-title">${movie.t}</div>
-          <div class="movie-meta">
-            ${genreNames}<br>
-            ${langName.toUpperCase()}<br>
-            <span style="font-size:0.85em; color:#FFD700; font-weight:600;">
-              ${movie.m ? movie.m.map(id => MAP.m[id]).join(" • ") : ""}
-            </span>
-          </div>
-        </div>
-      </div>
-    `;
+    const onclick = `applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    html += buildCard(movie, onclick);
   });
-
   resultsGrid.innerHTML = html;
 }
