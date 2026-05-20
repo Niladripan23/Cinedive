@@ -303,47 +303,148 @@ h1 {
   }
 }
 
-/* 🔥 CARD */
+/* 🎬 CARD — Poster Style */
 .movie-card {
-  background: #1B1B1B;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
   width: 100%;
   max-width: 160px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
   cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  background: #1B1B1B;
+  flex-shrink: 0;
 }
 
 .movie-card:hover {
   transform: scale(1.04);
-  box-shadow: 0 4px 20px rgba(239,226,151,0.12);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.7);
 }
 
-/* 🔥 IMAGE */
 .movie-card img {
   width: 100%;
-  height: 220px;
+  height: 240px;
   object-fit: cover;
+  display: block;
 }
 
-/* 🔥 CARD TEXT */
+/* Gradient overlay — dark at bottom, transparent at top */
+.movie-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.93) 40%,
+    rgba(0,0,0,0.18) 72%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Top-right: rating + watchlist */
+.movie-card-top {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.movie-rating {
+  background: rgba(11,11,11,0.78);
+  border: 1.5px solid #EFE297;
+  border-radius: 50px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #EFE297;
+  letter-spacing: 0.2px;
+}
+
+.movie-watchlist-btn {
+  background: rgba(11,11,11,0.6);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.movie-watchlist-btn:hover {
+  background: rgba(239,226,151,0.15);
+  border-color: #EFE297;
+}
+
+.movie-watchlist-btn svg {
+  display: block;
+}
+
+/* Bottom info overlay */
 .movie-info {
-  padding: 8px;
-  text-align: left;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 10px 12px;
 }
 
 .movie-title {
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 4px;
+  font-weight: 700;
+  font-size: 13px;
   color: #FFFFFF;
+  margin-bottom: 6px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.movie-meta {
-  font-size: 12px;
-  color: #B0B0B0;
+.movie-title .movie-year {
+  font-weight: 400;
+  color: #999;
+  font-size: 11px;
 }
+
+/* Tags row */
+.movie-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.1px;
+}
+
+/* Genre tag colors */
+.tag-action    { background: #2a1a1a; color: #F09595; }
+.tag-comedy    { background: #2a2a1a; color: #EF9F27; }
+.tag-romance   { background: #2a1520; color: #ED93B1; }
+.tag-horror    { background: #200f0f; color: #f07070; }
+.tag-crime     { background: #1a1a2a; color: #85B7EB; }
+.tag-scifi     { background: #0f2a22; color: #5DCAA5; }
+.tag-drama     { background: #1a1f2a; color: #85B7EB; }
+.tag-adventure { background: #1a2530; color: #7BC8E8; }
+.tag-fantasy   { background: #221a35; color: #AFA9EC; }
+.tag-history   { background: #2a2010; color: #EF9F27; }
+.tag-thriller  { background: #201515; color: #F09595; }
+.tag-animation { background: #1f1a30; color: #AFA9EC; }
+
+/* Mood tag */
+.tag-mood { background: #1e1528; color: #C4A8E8; }
+
+/* Keep meta class for any legacy references, hidden now */
+.movie-meta { display: none; }
 
 /* 🔥 FOOTER */
 .footer {
