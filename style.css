@@ -309,10 +309,11 @@ h1 {
   overflow: hidden;
   position: relative;
   width: 100%;
-  max-width: 160px;
+  max-width: 216px;
+  aspect-ratio: 2 / 3;
   cursor: pointer;
   transition: transform 0.25s, box-shadow 0.25s;
-  background: #1B1B1B;
+  background: #161616;
   flex-shrink: 0;
 }
 
@@ -321,67 +322,49 @@ h1 {
   box-shadow: 0 8px 28px rgba(0,0,0,0.7);
 }
 
-/* 2:3 poster ratio wrapper */
-.movie-poster {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  background: #161616;
-  overflow: hidden;
-}
-
-.movie-poster img {
+/* Image fills the whole card */
+.movie-card img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 0;
 }
 
-/* Styled placeholder shown when image fails */
-.movie-poster-placeholder {
+/* Placeholder — shown when image fails */
+.movie-card-placeholder {
   position: absolute;
   inset: 0;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, #1e1e1e, #141414);
-  gap: 10px;
+  background: #161616;
+  gap: 8px;
+  z-index: 0;
 }
 
-.movie-poster-placeholder .placeholder-initial {
-  font-size: 32px;
+.movie-card-placeholder .placeholder-initial {
+  font-size: 48px;
   font-weight: 700;
-  color: rgba(239,226,151,0.3);
+  color: rgba(239,226,151,0.2);
   line-height: 1;
-  letter-spacing: -1px;
 }
 
-.movie-poster.broken img {
-  display: none;
-}
+/* onerror adds .broken to the card */
+.movie-card.broken img { display: none; }
+.movie-card.broken .movie-card-placeholder { display: flex; }
 
-.movie-poster.broken .movie-poster-placeholder {
-  display: flex;
-}
-
-.movie-card > img {
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
-  display: block;
-}
-
-/* Gradient overlay — dark at bottom, transparent at top */
-.movie-poster .movie-card-overlay {
+/* Gradient overlay */
+.movie-card-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.93) 40%,
-    rgba(0,0,0,0.18) 72%,
+    rgba(0,0,0,0.93) 38%,
+    rgba(0,0,0,0.15) 70%,
     transparent 100%
   );
   pointer-events: none;
@@ -429,12 +412,10 @@ h1 {
   border-color: #EFE297;
 }
 
-.movie-watchlist-btn svg {
-  display: block;
-}
+.movie-watchlist-btn svg { display: block; }
 
 /* Bottom info overlay */
-.movie-poster .movie-info {
+.movie-info {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -753,14 +734,14 @@ h1 {
 
 /* Scoped override so only cards in the slider get smaller */
 .horizontal-scroll .movie-card {
-  flex: 0 0 130px; 
+  flex: 0 0 176px;
   scroll-snap-align: start;
-  max-width: 130px;
+  max-width: 176px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 .horizontal-scroll .movie-card img {
-  height: 185px; 
+  height: 250px;
 }
 
 .horizontal-scroll .movie-title {
