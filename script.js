@@ -15,6 +15,21 @@ const TAG_CLASS = {
   9:"tag-fantasy", 10:"tag-history", 11:"tag-thriller", 12:"tag-animation"
 };
 
+// 🖼️ TMDB IMAGE URL BUILDER
+// p and bgp store only the path suffix (e.g. "/abc123.jpg")
+// Base URL concatenated here at render time — JSON stays compact
+const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
+
+function getImageUrl(path) {
+  if (!path || typeof path !== "string" || path.trim() === "") return null;
+  return TMDB_IMG_BASE + path;
+}
+
+function getBackdropUrl(path) {
+  if (!path || typeof path !== "string" || path.trim() === "") return null;
+  return TMDB_IMG_BASE + path;
+}
+
 // 🎬 UNIFIED CARD BUILDER
 function buildCard(movie, onclickStr) {
   const genres = (movie.g || []).slice(0, 2).map(id =>
@@ -24,14 +39,27 @@ function buildCard(movie, onclickStr) {
     ? `<span class="tag tag-mood">${MAP.m[movie.m[0]]}</span>` : "";
 
   const initial = movie.t.trim().charAt(0).toUpperCase();
-  const imgSrc = getImageUrl(movie.p);
+  const imgUrl = getImageUrl(movie.p);
+
+  // img tag only injected when a valid URL exists
+  // onerror hides the img and reveals the placeholder directly via sibling selector
+  const imgHTML = imgUrl
+    ? `<img
+        src="${imgUrl}"
+        loading="lazy"
+        alt="${movie.t}"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+      >`
+    : "";
+
+  // Placeholder visible immediately when no poster path exists
+  const placeholderStyle = imgUrl ? "display:none;" : "display:flex;";
 
   return `
     <div class="movie-card" onclick="${onclickStr}">
       <div class="movie-poster">
-        <img src="${imgSrc}" loading="lazy" alt="${movie.t}"
-          onerror="this.closest('.movie-poster').classList.add('broken')">
-        <div class="movie-poster-placeholder">
+        ${imgHTML}
+        <div class="movie-card-placeholder" style="${placeholderStyle}">
           <span class="placeholder-initial">${initial}</span>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#EFE297" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.2">
             <rect x="2" y="2" width="20" height="20" rx="4"/>
@@ -62,7 +90,6 @@ function showFilters() {
 }
 
 function clearFilters() {
-  // Reset all select elements to default
   document.getElementById("type").value = "";
   document.getElementById("genre").value = "";
   document.getElementById("language").value = "";
@@ -70,13 +97,7 @@ function clearFilters() {
   document.getElementById("year").value = "";
   document.getElementById("popularity").value = "";
   document.getElementById("platform").value = "";
-  
-  // Refresh the grid
   findSuggestion();
-}
-
-function getImageUrl(path) {
-  return path ? "https://image.tmdb.org/t/p/w500" + path : "https://via.placeholder.com/300x450?text=No+Poster";
 }
 
 // 🎯 FIND PICKS (Homepage Auto-Filter)
@@ -95,22 +116,20 @@ async function findSuggestion() {
     const popVal = document.getElementById("popularity").value;
 
     let results = data.filter(item => {
-      // Custom mapping for Anime since it spans movies & series in JSON
       let matchType = true;
       if (typeVal === "anime") {
-        matchType = (item.l === "jp" || (item.g && item.g.includes(12))); // 12 is Animation
+        matchType = (item.l === "jp" || (item.g && item.g.includes(12)));
       } else if (typeVal) {
         matchType = (item.ty === parseInt(typeVal));
       }
 
       const matchGenre = !genreVal || (item.g && item.g.includes(genreVal));
-      const matchLang = !langVal || (item.l === langVal);
-      const matchMood = !moodVal || (item.m && item.m.includes(moodVal));
+      const matchLang  = !langVal  || (item.l === langVal);
+      const matchMood  = !moodVal  || (item.m && item.m.includes(moodVal));
 
       return matchType && matchGenre && matchLang && matchMood;
     });
 
-    // Simulate Popularity Sorting
     if (popVal === "trending" || popVal === "recently_popular") {
       results = results.sort(() => 0.5 - Math.random());
     } else if (popVal === "top_rated" || popVal === "most_watched") {
@@ -134,33 +153,29 @@ function displayResults(results, title) {
     return;
   }
 
-  // Limit to 6 random from results (or top 6 if sorted)
   const finalSelection = results.slice(0, 6);
-
   let html = "";
   finalSelection.forEach(movie => {
     const onclick = `openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
     html += buildCard(movie, onclick);
   });
-
   resultsDiv.innerHTML = html;
 }
 
 /* =========================================
-   🔥 UPGRADED SEARCH OVERLAY LOGIC
+   🔥 SEARCH OVERLAY LOGIC
 ========================================= */
-let searchDataCache = []; 
+let searchDataCache = [];
 const RECENT_SEARCHES_KEY = "cinedive_recent_searches";
 
 async function openSearchOverlay() {
   document.getElementById("search-overlay").classList.add("active");
-  document.body.classList.add("search-active"); 
-  
+  document.body.classList.add("search-active");
+
   setTimeout(() => {
     document.getElementById("overlay-search-input").focus();
   }, 100);
 
-  // Pre-fetch data
   if (searchDataCache.length === 0) {
     try {
       const response = await fetch("data.json");
@@ -170,7 +185,6 @@ async function openSearchOverlay() {
     }
   }
 
-  // Render Default State Views (Recent, Trending, Featured)
   renderRecentSearches();
   populateHorizontalSections();
 }
@@ -178,10 +192,8 @@ async function openSearchOverlay() {
 function closeSearchOverlay() {
   document.getElementById("search-overlay").classList.remove("active");
   document.body.classList.remove("search-active");
-  
-  // Reset overlay to default view
   document.getElementById("overlay-search-input").value = "";
-  handleRealTimeSearch(""); 
+  handleRealTimeSearch("");
 }
 
 /* --- RECENT SEARCHES LOGIC --- */
@@ -192,19 +204,14 @@ function getRecentSearches() {
 function saveRecentSearch(query) {
   if (!query.trim()) return;
   let searches = getRecentSearches();
-  
-  // Remove duplicates
   searches = searches.filter(s => s.toLowerCase() !== query.toLowerCase());
-  
-  // Add to front and keep max 5
-  searches.unshift(query.trim()); 
-  if (searches.length > 5) searches.pop(); 
-  
+  searches.unshift(query.trim());
+  if (searches.length > 5) searches.pop();
   localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(searches));
 }
 
 function renderRecentSearches() {
-  const list = document.getElementById("recent-searches-list");
+  const list    = document.getElementById("recent-searches-list");
   const section = document.getElementById("recent-searches-section");
   const searches = getRecentSearches();
 
@@ -234,23 +241,20 @@ function applyRecentSearch(query) {
 function handleSearchEnter(event, query) {
   if (event.key === "Enter") {
     saveRecentSearch(query);
-    event.target.blur(); // Dismiss keyboard on mobile devices
+    event.target.blur();
   }
 }
 
 /* --- TRENDING & FEATURED LOGIC --- */
 function populateHorizontalSections() {
   if (!searchDataCache || searchDataCache.length === 0) return;
-  
+
   const trendingContainer = document.getElementById("trending-scroll");
   const featuredContainer = document.getElementById("featured-scroll");
 
-  // Prevent re-rendering if already populated
   if (trendingContainer.innerHTML.trim() !== "") return;
 
-  // Shuffle cache to simulate Trending and Featured lists
   const shuffled = [...searchDataCache].sort(() => 0.5 - Math.random());
-  
   trendingContainer.innerHTML = generateHorizontalCards(shuffled.slice(0, 8));
   featuredContainer.innerHTML = generateHorizontalCards(shuffled.slice(8, 16));
 }
@@ -268,33 +272,29 @@ function generateHorizontalCards(items) {
 function handleRealTimeSearch(query) {
   const defaultState = document.getElementById("search-default-state");
   const resultsState = document.getElementById("search-results-state");
-  const resultsGrid = document.getElementById("search-overlay-results");
-  const emptyState = document.getElementById("search-empty-state");
+  const resultsGrid  = document.getElementById("search-overlay-results");
+  const emptyState   = document.getElementById("search-empty-state");
 
   query = query.toLowerCase().trim();
 
-  // View Toggling: If empty, show default view. If typing, show results.
   if (!query) {
     defaultState.classList.remove("hidden");
     resultsState.classList.add("hidden");
-    renderRecentSearches(); 
+    renderRecentSearches();
     return;
   }
 
   defaultState.classList.add("hidden");
   resultsState.classList.remove("hidden");
 
-  // Filter based on Title, Genre, Language, or Type
   const filtered = searchDataCache.filter(item => {
     const titleMatch = item.t.toLowerCase().includes(query);
     const genreMatch = item.g ? item.g.some(id => MAP.g[id] && MAP.g[id].toLowerCase().includes(query)) : false;
-    const langName = MAP.l[item.l] ? MAP.l[item.l].toLowerCase() : "";
-    const typeName = MAP.ty[item.ty] ? MAP.ty[item.ty].toLowerCase() : "";
-
+    const langName   = MAP.l[item.l]  ? MAP.l[item.l].toLowerCase()  : "";
+    const typeName   = MAP.ty[item.ty] ? MAP.ty[item.ty].toLowerCase() : "";
     return titleMatch || genreMatch || langName.includes(query) || typeName.includes(query);
   });
 
-  // Displaying Results
   if (filtered.length === 0) {
     resultsGrid.innerHTML = "";
     emptyState.classList.remove("hidden");
