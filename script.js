@@ -32,35 +32,33 @@ function getBackdropUrl(path) {
    🎬 FEATURED SLIDESHOW CONTROLLER
 ========================================= */
 (function initSlideshow() {
-  const INTERVAL_MS = 3000;
+  // TIMING CHANGE: interval increased from 3000ms to 5000ms
+  const INTERVAL_MS   = 5000;
   const TRANSITION_MS = 650;
 
-  const track     = document.getElementById("slidesTrack");
-  const dotsWrap  = document.getElementById("slideDots");
-  const prevBtn   = document.getElementById("slidePrev");
-  const nextBtn   = document.getElementById("slideNext");
+  const track    = document.getElementById("slidesTrack");
+  const dotsWrap = document.getElementById("slideDots");
+  const prevBtn  = document.getElementById("slidePrev");
+  const nextBtn  = document.getElementById("slideNext");
 
   if (!track) return;
 
-  // Read slides from HTML data attributes
   const slideEls = Array.from(track.querySelectorAll(".slide"));
   const total    = slideEls.length;
   if (total === 0) return;
 
-  let current   = 0;
-  let timer     = null;
+  let current     = 0;
+  let timer       = null;
   let isAnimating = false;
 
   // Build slide backgrounds and content from data attributes
-  slideEls.forEach((el, i) => {
+  slideEls.forEach((el) => {
     const img   = el.getAttribute("data-img")   || "";
     const title = el.getAttribute("data-title") || "";
     const label = el.getAttribute("data-label") || "";
 
-    // Apply background image
     if (img) el.style.backgroundImage = `url('${img}')`;
 
-    // Inject content HTML
     el.innerHTML = `
       <div class="slide-content">
         ${label ? `<span class="slide-label"><span class="slide-label-dot"></span>${label}</span>` : ""}
@@ -94,19 +92,18 @@ function getBackdropUrl(path) {
   function startProgress() {
     progressFill.style.transition = "none";
     progressFill.style.width = "0%";
-    // Force reflow so transition resets cleanly
     void progressFill.offsetWidth;
     progressFill.style.transition = `width ${INTERVAL_MS}ms linear`;
     progressFill.style.width = "100%";
   }
 
-  function goTo(index, skipProgress) {
+  function goTo(index) {
     if (isAnimating || index === current) return;
     isAnimating = true;
     current = (index + total) % total;
     track.style.transform = `translateX(-${current * 100}%)`;
     updateDots();
-    if (!skipProgress) startProgress();
+    startProgress();
     setTimeout(() => { isAnimating = false; }, TRANSITION_MS);
   }
 
@@ -128,7 +125,7 @@ function getBackdropUrl(path) {
   prevBtn.addEventListener("click", () => { prev(); resetTimer(); });
   nextBtn.addEventListener("click", () => { next(); resetTimer(); });
 
-  // Touch/swipe support for mobile
+  // Touch/swipe support
   let touchStartX = 0;
   let touchDelta  = 0;
 
@@ -153,7 +150,6 @@ function getBackdropUrl(path) {
   const slideshow = document.getElementById("featuredSlideshow");
   slideshow.addEventListener("mouseenter", () => {
     clearInterval(timer);
-    progressFill.style.animationPlayState = "paused";
     progressFill.style.transition = "none";
   });
   slideshow.addEventListener("mouseleave", () => {
@@ -342,8 +338,8 @@ function saveRecentSearch(query) {
 }
 
 function renderRecentSearches() {
-  const list    = document.getElementById("recent-searches-list");
-  const section = document.getElementById("recent-searches-section");
+  const list     = document.getElementById("recent-searches-list");
+  const section  = document.getElementById("recent-searches-section");
   const searches = getRecentSearches();
 
   if (searches.length === 0) {
