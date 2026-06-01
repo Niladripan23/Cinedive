@@ -16,8 +16,6 @@ const TAG_CLASS = {
 };
 
 // 🖼️ TMDB IMAGE URL BUILDER
-// p and bgp store only the path suffix (e.g. "/abc123.jpg")
-// Base URL concatenated here at render time — JSON stays compact
 const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
 
 function getImageUrl(path) {
@@ -30,7 +28,146 @@ function getBackdropUrl(path) {
   return TMDB_IMG_BASE + path;
 }
 
-// 🎬 UNIFIED CARD BUILDER
+/* =========================================
+   🎬 FEATURED SLIDESHOW CONTROLLER
+========================================= */
+(function initSlideshow() {
+  const INTERVAL_MS = 3000;
+  const TRANSITION_MS = 650;
+
+  const track     = document.getElementById("slidesTrack");
+  const dotsWrap  = document.getElementById("slideDots");
+  const prevBtn   = document.getElementById("slidePrev");
+  const nextBtn   = document.getElementById("slideNext");
+
+  if (!track) return;
+
+  // Read slides from HTML data attributes
+  const slideEls = Array.from(track.querySelectorAll(".slide"));
+  const total    = slideEls.length;
+  if (total === 0) return;
+
+  let current   = 0;
+  let timer     = null;
+  let isAnimating = false;
+
+  // Build slide backgrounds and content from data attributes
+  slideEls.forEach((el, i) => {
+    const img   = el.getAttribute("data-img")   || "";
+    const title = el.getAttribute("data-title") || "";
+    const label = el.getAttribute("data-label") || "";
+
+    // Apply background image
+    if (img) el.style.backgroundImage = `url('${img}')`;
+
+    // Inject content HTML
+    el.innerHTML = `
+      <div class="slide-content">
+        ${label ? `<span class="slide-label"><span class="slide-label-dot"></span>${label}</span>` : ""}
+        ${title ? `<div class="slide-title">${title}</div>` : ""}
+      </div>
+    `;
+  });
+
+  // Build dot indicators
+  slideEls.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = "slide-dot" + (i === 0 ? " active" : "");
+    dot.setAttribute("aria-label", `Slide ${i + 1}`);
+    dot.addEventListener("click", () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  // Build progress bar
+  const progressWrap = document.createElement("div");
+  progressWrap.className = "slide-progress";
+  const progressFill = document.createElement("div");
+  progressFill.className = "slide-progress-fill";
+  progressWrap.appendChild(progressFill);
+  document.getElementById("featuredSlideshow").appendChild(progressWrap);
+
+  function updateDots() {
+    const dots = dotsWrap.querySelectorAll(".slide-dot");
+    dots.forEach((d, i) => d.classList.toggle("active", i === current));
+  }
+
+  function startProgress() {
+    progressFill.style.transition = "none";
+    progressFill.style.width = "0%";
+    // Force reflow so transition resets cleanly
+    void progressFill.offsetWidth;
+    progressFill.style.transition = `width ${INTERVAL_MS}ms linear`;
+    progressFill.style.width = "100%";
+  }
+
+  function goTo(index, skipProgress) {
+    if (isAnimating || index === current) return;
+    isAnimating = true;
+    current = (index + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    updateDots();
+    if (!skipProgress) startProgress();
+    setTimeout(() => { isAnimating = false; }, TRANSITION_MS);
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, INTERVAL_MS);
+    startProgress();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    startTimer();
+  }
+
+  // Arrow controls
+  prevBtn.addEventListener("click", () => { prev(); resetTimer(); });
+  nextBtn.addEventListener("click", () => { next(); resetTimer(); });
+
+  // Touch/swipe support for mobile
+  let touchStartX = 0;
+  let touchDelta  = 0;
+
+  track.addEventListener("touchstart", e => {
+    touchStartX = e.touches[0].clientX;
+    clearInterval(timer);
+  }, { passive: true });
+
+  track.addEventListener("touchmove", e => {
+    touchDelta = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  track.addEventListener("touchend", () => {
+    if (Math.abs(touchDelta) > 40) {
+      touchDelta < 0 ? next() : prev();
+    }
+    touchDelta = 0;
+    startTimer();
+  }, { passive: true });
+
+  // Pause on hover (desktop)
+  const slideshow = document.getElementById("featuredSlideshow");
+  slideshow.addEventListener("mouseenter", () => {
+    clearInterval(timer);
+    progressFill.style.animationPlayState = "paused";
+    progressFill.style.transition = "none";
+  });
+  slideshow.addEventListener("mouseleave", () => {
+    startTimer();
+  });
+
+  // Initial render
+  track.style.transform = `translateX(0%)`;
+  startTimer();
+})();
+
+/* =========================================
+   🎬 UNIFIED CARD BUILDER
+========================================= */
 function buildCard(movie, onclickStr) {
   const genres = (movie.g || []).slice(0, 2).map(id =>
     `<span class="tag ${TAG_CLASS[id] || 'tag-drama'}">${MAP.g[id]}</span>`
@@ -39,10 +176,8 @@ function buildCard(movie, onclickStr) {
     ? `<span class="tag tag-mood">${MAP.m[movie.m[0]]}</span>` : "";
 
   const initial = movie.t.trim().charAt(0).toUpperCase();
-  const imgUrl = getImageUrl(movie.p);
+  const imgUrl  = getImageUrl(movie.p);
 
-  // img tag only injected when a valid URL exists
-  // onerror hides the img and reveals the placeholder directly via sibling selector
   const imgHTML = imgUrl
     ? `<img
         src="${imgUrl}"
@@ -52,7 +187,6 @@ function buildCard(movie, onclickStr) {
       >`
     : "";
 
-  // Placeholder visible immediately when no poster path exists
   const placeholderStyle = imgUrl ? "display:none;" : "display:flex;";
 
   return `
@@ -61,7 +195,7 @@ function buildCard(movie, onclickStr) {
         ${imgHTML}
         <div class="movie-card-placeholder" style="${placeholderStyle}">
           <span class="placeholder-initial">${initial}</span>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#EFE297" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.2">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.15">
             <rect x="2" y="2" width="20" height="20" rx="4"/>
             <circle cx="8.5" cy="8.5" r="1.5"/>
             <polyline points="21 15 16 10 5 21"/>
@@ -100,20 +234,20 @@ function clearFilters() {
   findSuggestion();
 }
 
-// 🎯 FIND PICKS (Homepage Auto-Filter)
+// 🎯 FIND PICKS
 async function findSuggestion() {
   const resultsDiv = document.getElementById("results");
   resultsDiv.innerHTML = `<p style="color:#B0B0B0; text-align:center; width:100%; padding:20px 0;">Updating your picks...</p>`;
 
   try {
     const response = await fetch("data.json");
-    const data = await response.json();
+    const data     = await response.json();
 
-    const typeVal = document.getElementById("type").value;
+    const typeVal  = document.getElementById("type").value;
     const genreVal = parseInt(document.getElementById("genre").value);
-    const langVal = document.getElementById("language").value;
-    const moodVal = parseInt(document.getElementById("mood").value);
-    const popVal = document.getElementById("popularity").value;
+    const langVal  = document.getElementById("language").value;
+    const moodVal  = parseInt(document.getElementById("mood").value);
+    const popVal   = document.getElementById("popularity").value;
 
     let results = data.filter(item => {
       let matchType = true;
@@ -122,11 +256,9 @@ async function findSuggestion() {
       } else if (typeVal) {
         matchType = (item.ty === parseInt(typeVal));
       }
-
       const matchGenre = !genreVal || (item.g && item.g.includes(genreVal));
       const matchLang  = !langVal  || (item.l === langVal);
       const matchMood  = !moodVal  || (item.m && item.m.includes(moodVal));
-
       return matchType && matchGenre && matchLang && matchMood;
     });
 
@@ -143,7 +275,7 @@ async function findSuggestion() {
   }
 }
 
-// 🖼️ RENDER ENGINE (Homepage Grid)
+// 🖼️ RENDER ENGINE
 function displayResults(results, title) {
   const resultsDiv = document.getElementById("results");
   document.getElementById("results-title").innerText = title;
@@ -196,7 +328,6 @@ function closeSearchOverlay() {
   handleRealTimeSearch("");
 }
 
-/* --- RECENT SEARCHES LOGIC --- */
 function getRecentSearches() {
   return JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY)) || [];
 }
@@ -245,7 +376,6 @@ function handleSearchEnter(event, query) {
   }
 }
 
-/* --- TRENDING & FEATURED LOGIC --- */
 function populateHorizontalSections() {
   if (!searchDataCache || searchDataCache.length === 0) return;
 
@@ -268,7 +398,6 @@ function generateHorizontalCards(items) {
   return html;
 }
 
-/* --- REAL-TIME SEARCH FILTERING --- */
 function handleRealTimeSearch(query) {
   const defaultState = document.getElementById("search-default-state");
   const resultsState = document.getElementById("search-results-state");
@@ -290,7 +419,7 @@ function handleRealTimeSearch(query) {
   const filtered = searchDataCache.filter(item => {
     const titleMatch = item.t.toLowerCase().includes(query);
     const genreMatch = item.g ? item.g.some(id => MAP.g[id] && MAP.g[id].toLowerCase().includes(query)) : false;
-    const langName   = MAP.l[item.l]  ? MAP.l[item.l].toLowerCase()  : "";
+    const langName   = MAP.l[item.l]   ? MAP.l[item.l].toLowerCase()   : "";
     const typeName   = MAP.ty[item.ty] ? MAP.ty[item.ty].toLowerCase() : "";
     return titleMatch || genreMatch || langName.includes(query) || typeName.includes(query);
   });
