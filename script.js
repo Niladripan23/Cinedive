@@ -33,7 +33,7 @@ function getBackdropUrl(path) {
 ========================================= */
 (function initSlideshow() {
   // TIMING CHANGE: interval increased from 3000ms to 5000ms
-  const INTERVAL_MS   = 6000;
+  const INTERVAL_MS   = 5000;
   const TRANSITION_MS = 650;
 
   const track    = document.getElementById("slidesTrack");
