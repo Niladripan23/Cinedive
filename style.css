@@ -202,7 +202,7 @@ h1 {
     Mobile: 16/7 → 16/6.35 (~10% taller)
     Desktop: 16/6 → 16/5.45 (~10% taller)
   */
-  aspect-ratio: 16 / 6.35;
+  aspect-ratio: 16 / 6;
   overflow: hidden;
   background: #0D0D0D;
   margin-top: 0;
@@ -210,7 +210,7 @@ h1 {
 
 @media (min-width: 768px) {
   .featured-slideshow {
-    aspect-ratio: 16 / 5.45;
+    aspect-ratio: 16 / 5;
   }
 }
 
