@@ -47,6 +47,66 @@
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════
+       FEATURED SLIDESHOW DATA
+       To update banners: edit the data-* attributes
+       on each .slide element below.
+       - data-img  : full image URL (backdrop/banner)
+       - data-title: movie or show name (optional)
+       - data-label: badge label e.g. "Trending", "New"
+  ═══════════════════════════════════════════ -->
+  <section class="featured-slideshow" id="featuredSlideshow">
+    <div class="slides-track" id="slidesTrack">
+
+      <div class="slide"
+           data-img="https://image.tmdb.org/t/p/original/xJHax9isY6nduRjZSEzdOGpT6Zp.jpg"
+           data-title="Interstellar"
+           data-label="Featured">
+      </div>
+
+      <div class="slide"
+           data-img="https://image.tmdb.org/t/p/original/oXUunYhn9uY1Yv6qU6A96vGvLpY.jpg"
+           data-title="The Dark Knight"
+           data-label="Trending">
+      </div>
+
+      <div class="slide"
+           data-img="https://image.tmdb.org/t/p/original/8Z99vYQXbu9o4v6qU6A96vGvLpY.jpg"
+           data-title="Inception"
+           data-label="Spotlight">
+      </div>
+
+      <div class="slide"
+           data-img="https://image.tmdb.org/t/p/original/70YpTzhScySAn8Br97vY88S6p60.jpg"
+           data-title="Zindagi Na Milegi Dobara"
+           data-label="New">
+      </div>
+
+      <div class="slide"
+           data-img="https://image.tmdb.org/t/p/original/hiKypO3V6fK0pX8I7Y86S9Qqp.jpg"
+           data-title="Parasite"
+           data-label="Award Winner">
+      </div>
+
+    </div>
+
+    <!-- Dot indicators -->
+    <div class="slide-dots" id="slideDots"></div>
+
+    <!-- Prev / Next arrows (desktop) -->
+    <button class="slide-arrow slide-arrow-prev" id="slidePrev" aria-label="Previous">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <button class="slide-arrow slide-arrow-next" id="slideNext" aria-label="Next">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+  </section>
+  <!-- END FEATURED SLIDESHOW -->
+
   <div class="container">
     
     <div id="filters" class="preferences-container hidden">
