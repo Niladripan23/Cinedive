@@ -1,0 +1,85 @@
+[
+    
+{
+  "featured": [
+    { "id": 157336, "t": "Interstellar" },
+    { "id": 27205,  "t": "Inception" },
+    { "id": 155,    "t": "The Dark Knight" },
+    { "id": 496243, "t": "Parasite" },
+    { "id": 438631, "t": "Dune" },
+    { "id": 1396,   "t": "Breaking Bad" },
+    { "id": 1399,   "t": "Game of Thrones" },
+    { "id": 85937,  "t": "Demon Slayer" },
+    { "id": 93405,  "t": "Squid Game" },
+    { "id": 95479,  "t": "Jujutsu Kaisen" }
+  ],
+  "trending_movies": [
+    { "id": 438631, "t": "Dune" },
+    { "id": 577922, "t": "Tenet" },
+    { "id": 475557, "t": "Joker" }
+  ],
+  "trending_series": [
+    { "id": 93405,  "t": "Squid Game" },
+    { "id": 76479,  "t": "The Boys" },
+    { "id": 66732,  "t": "Stranger Things" }
+  ],
+  "trending_anime": [
+    { "id": 1429,   "t": "Attack on Titan" },
+    { "id": 95479,  "t": "Jujutsu Kaisen" },
+    { "id": 85937,  "t": "Demon Slayer" }
+  ],
+  "latest_releases": [
+    { "id": 438631, "t": "Dune" },
+    { "id": 577922, "t": "Tenet" },
+    { "id": 94997,  "t": "House of the Dragon" },
+    { "id": 114410, "t": "Chainsaw Man" },
+    { "id": 705996, "t": "Decision to Leave" },
+    { "id": 136283, "t": "The Glory" },
+    { "id": 115036, "t": "All of Us Are Dead" },
+    { "id": 568160, "t": "Weathering With You" },
+    { "id": 378064, "t": "A Silent Voice" },
+    { "id": 197067, "t": "Extraordinary Attorney Woo" }
+  ],
+  "kids_speacial": [
+    { "id": 11111, "t": "pokk pokk" },
+    { "id": 11111, "t": "pokk pokk" },
+    { "id": 11111,  "t": "pokk pokk" }
+  ],
+  "for_you": [
+    { "id": 550607, "t": "Gully Boy" },
+    { "id": 534780, "t": "Andhadhun" },
+    { "id": 542220, "t": "Tumbbad" },
+    { "id": 605770, "t": "Article 15" },
+    { "id": 554301, "t": "Uri: The Surgical Strike" },
+    { "id": 111135, "t": "Scam 1992" },
+    { "id": 102142, "t": "Paatal Lok" },
+    { "id": 101214, "t": "Panchayat" },
+    { "id": 91361,  "t": "The Family Man" },
+    { "id": 154101, "t": "Rocket Boys" }
+  ],
+  "global_favourites": [
+    { "id": 278,    "t": "The Shawshank Redemption" },
+    { "id": 13,     "t": "Forrest Gump" },
+    { "id": 550,    "t": "Fight Club" },
+    { "id": 603,    "t": "The Matrix" },
+    { "id": 98,     "t": "Gladiator" },
+    { "id": 37799,  "t": "The Social Network" },
+    { "id": 1668,   "t": "Friends" },
+    { "id": 1405,   "t": "Dexter" },
+    { "id": 19885,  "t": "Sherlock" },
+    { "id": 46261,  "t": "Naruto" }
+  ],
+  "regional_hits": [
+    { "id": 2603,   "t": "Sholay" },
+    { "id": 20453,  "t": "3 Idiots" },
+    { "id": 360814, "t": "Dangal" },
+    { "id": 598,    "t": "Pather Panchali" },
+    { "id": 670,    "t": "Oldboy" },
+    { "id": 346364, "t": "Train to Busan" },
+    { "id": 80623,  "t": "Sacred Games" },
+    { "id": 82693,  "t": "Mirzapur" },
+    { "id": 70593,  "t": "Kingdom" },
+    { "id": 65345,  "t": "Signal" }
+  ]
+}
+]
