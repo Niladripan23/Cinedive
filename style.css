@@ -28,13 +28,6 @@ body {
   z-index: 100;
 }
 
-/*
-  SEPARATOR FIX:
-  Replaced the hard border-bottom on .top-nav with a
-  soft radial glow separator div rendered below the nav.
-  Feels premium and cinematic — a faint light bloom
-  rather than a flat line cut.
-*/
 .top-nav::after {
   content: '';
   position: absolute;
@@ -197,7 +190,7 @@ h1 {
 .featured-slideshow {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 52vw;
   overflow: hidden;
   background: #0D0D0D;
   margin-top: 0;
@@ -205,11 +198,10 @@ h1 {
 
 @media (min-width: 768px) {
   .featured-slideshow {
-    aspect-ratio: 16 / 7;
+    height: 38vw;
   }
 }
 
-/* Track holds all slides side by side */
 .slides-track {
   display: flex;
   width: 100%;
@@ -218,7 +210,6 @@ h1 {
   will-change: transform;
 }
 
-/* Individual slide */
 .slide {
   flex: 0 0 100%;
   width: 100%;
@@ -229,7 +220,6 @@ h1 {
   background-repeat: no-repeat;
 }
 
-/* Cinematic gradient overlay */
 .slide::before {
   content: '';
   position: absolute;
@@ -242,7 +232,6 @@ h1 {
   pointer-events: none;
 }
 
-/* Slide text content */
 .slide-content {
   position: absolute;
   bottom: 18px;
@@ -261,7 +250,6 @@ h1 {
   }
 }
 
-/* Badge label */
 .slide-label {
   display: inline-flex;
   align-items: center;
@@ -280,7 +268,6 @@ h1 {
   width: fit-content;
 }
 
-/* Pulse dot inside label */
 .slide-label-dot {
   width: 5px;
   height: 5px;
@@ -294,7 +281,6 @@ h1 {
   50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
-/* Movie title on slide */
 .slide-title {
   font-size: 20px;
   font-weight: 700;
@@ -312,7 +298,6 @@ h1 {
   }
 }
 
-/* Dot indicators */
 .slide-dots {
   position: absolute;
   bottom: 14px;
@@ -337,7 +322,7 @@ h1 {
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease, width 0.3s ease;
+  transition: background 0.3s ease, width 0.3s ease;
   flex-shrink: 0;
 }
 
@@ -347,7 +332,6 @@ h1 {
   border-radius: 3px;
 }
 
-/* Prev / Next arrows — desktop only */
 .slide-arrow {
   position: absolute;
   top: 50%;
@@ -383,7 +367,6 @@ h1 {
   }
 }
 
-/* Progress bar at bottom of slideshow */
 .slide-progress {
   position: absolute;
   bottom: 0;
@@ -523,39 +506,65 @@ h1 {
 
 @media (min-width: 768px) {
   .results-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 20px;
   }
 }
 
 /* =========================================
-   🎬 MOVIE CARD
+   🎬 MOVIE CARD — UPGRADED
+   Layout: poster on top, metadata below.
+   No overlays, no shadows, no colored chips.
+   Rating circle top-left on border.
+   Watchlist enlarged top-right.
 ========================================= */
 
+/*
+  Card outer wrapper.
+  — NOT aspect-ratio on the card itself anymore,
+    because the card now has a metadata section below.
+  — Width reduced ~15% from 216px → 184px mobile.
+  — overflow: visible so the rating badge
+    can sit half-outside the poster top-left corner.
+*/
 .movie-card {
-  border-radius: 16px;
-  overflow: hidden;
+  border-radius: 0;
+  overflow: visible;
   position: relative;
   width: 100%;
-  max-width: 216px;
-  aspect-ratio: 2 / 3;
+  max-width: 184px;
   cursor: pointer;
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition: transform 0.25s;
+  background: transparent;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: none;
+}
+
+.movie-card:hover {
+  transform: scale(1.03);
+  box-shadow: none;
+}
+
+/*
+  Poster wrapper — maintains 2:3 aspect ratio.
+  position: relative so absolutely placed
+  rating + watchlist badges anchor to it.
+  overflow: visible to allow rating badge bleed.
+  border-radius on poster only.
+*/
+.movie-poster {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  overflow: hidden;
   background: #161616;
   flex-shrink: 0;
 }
 
-.movie-card:hover {
-  transform: scale(1.04);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.7);
-}
-
-.movie-poster {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
+/* Poster image fills wrapper */
 .movie-poster img {
   position: absolute;
   inset: 0;
@@ -566,6 +575,7 @@ h1 {
   z-index: 0;
 }
 
+/* Placeholder when image missing/fails */
 .movie-card-placeholder {
   position: absolute;
   inset: 0;
@@ -576,55 +586,68 @@ h1 {
   background: #161616;
   gap: 8px;
   z-index: 0;
+  border-radius: 12px;
 }
 
 .movie-card-placeholder .placeholder-initial {
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 700;
   color: rgba(255,255,255,0.1);
   line-height: 1;
 }
 
+/*
+  NO gradient overlay on poster.
+  Poster artwork fully visible and unobstructed.
+*/
 .movie-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.93) 38%,
-    rgba(0,0,0,0.15) 70%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
+  display: none;
 }
 
-.movie-card-top {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  z-index: 2;
-}
-
+/*
+  RATING BADGE — circular, top-left corner,
+  sits half on poster / half outside (negative offset).
+  z-index above poster so it bleeds over the border.
+*/
 .movie-rating {
-  background: rgba(11,11,11,0.78);
-  border: 1.5px solid rgba(255,255,255,0.5);
-  border-radius: 50px;
-  padding: 3px 9px;
-  font-size: 11px;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 10;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #0B0B0B;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
   font-weight: 700;
   color: #FFFFFF;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.1px;
+  flex-shrink: 0;
+}
+
+/*
+  WATCHLIST BUTTON — enlarged, top-right,
+  same position as before.
+*/
+.movie-card-top {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
 }
 
 .movie-watchlist-btn {
-  background: rgba(11,11,11,0.6);
-  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(11,11,11,0.65);
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -634,44 +657,73 @@ h1 {
 }
 
 .movie-watchlist-btn:hover {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.15);
   border-color: rgba(255,255,255,0.5);
 }
 
-.movie-watchlist-btn svg { display: block; }
+.movie-watchlist-btn svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
 
+/*
+  METADATA AREA — below poster.
+  Clean, tight spacing.
+*/
 .movie-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px 10px 12px;
-  z-index: 2;
+  position: static;
+  padding: 8px 2px 4px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: auto;
+}
+
+/*
+  Title row: title + year side by side.
+  Title stays white, year is grey, same line.
+*/
+.movie-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .movie-title {
   font-weight: 700;
   font-size: 12px;
   color: #FFFFFF;
-  margin-bottom: 6px;
   line-height: 1.3em;
   max-height: 2.6em;
   overflow: hidden;
   word-break: break-word;
+  flex-shrink: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.movie-year {
+  font-size: 11px;
+  font-weight: 400;
+  color: #777777;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
   .movie-title {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 
-.movie-title .movie-year {
-  font-weight: 400;
-  color: #999;
-  font-size: 11px;
-}
-
+/*
+  CHIP ROW — genre + mood chips.
+  Neutral style only. No colors.
+  Same visual language as the rating badge border.
+*/
 .movie-tags {
   display: flex;
   flex-wrap: wrap;
@@ -683,23 +735,21 @@ h1 {
   font-weight: 600;
   padding: 2px 7px;
   border-radius: 20px;
-  letter-spacing: 0.1px;
+  letter-spacing: 0.2px;
+  background: rgba(255,255,255,0.07);
+  color: #A0A0A0;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-.tag-action    { background: #2a1a1a; color: #F09595; }
-.tag-comedy    { background: #2a2a1a; color: #EF9F27; }
-.tag-romance   { background: #2a1520; color: #ED93B1; }
-.tag-horror    { background: #200f0f; color: #f07070; }
-.tag-crime     { background: #1a1a2a; color: #85B7EB; }
-.tag-scifi     { background: #0f2a22; color: #5DCAA5; }
-.tag-drama     { background: #1a1f2a; color: #85B7EB; }
-.tag-adventure { background: #1a2530; color: #7BC8E8; }
-.tag-fantasy   { background: #221a35; color: #AFA9EC; }
-.tag-history   { background: #2a2010; color: #EF9F27; }
-.tag-thriller  { background: #201515; color: #F09595; }
-.tag-animation { background: #1f1a30; color: #AFA9EC; }
-
-.tag-mood { background: #1e1528; color: #C4A8E8; }
+/* All genre/mood tags use the same neutral style */
+.tag-action, .tag-comedy, .tag-romance, .tag-horror,
+.tag-crime, .tag-scifi, .tag-drama, .tag-adventure,
+.tag-fantasy, .tag-history, .tag-thriller, .tag-animation,
+.tag-mood {
+  background: rgba(255,255,255,0.07);
+  color: #A0A0A0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
 
 .movie-meta { display: none; }
 
@@ -947,9 +997,11 @@ h1 {
 
 .horizontal-scroll {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   overflow-x: auto;
   padding-bottom: 16px;
+  padding-left: 14px;
+  padding-right: 14px;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -959,15 +1011,15 @@ h1 {
   display: none;
 }
 
+/*
+  Carousel cards: fixed width so 3–4 fit in mobile viewport.
+  ~28vw gives ~3.4 cards visible on a 390px screen.
+  max-width cap for desktop.
+*/
 .horizontal-scroll .movie-card {
-  flex: 0 0 176px;
+  flex: 0 0 28vw;
+  max-width: 156px;
   scroll-snap-align: start;
-  max-width: 176px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-.horizontal-scroll .movie-title {
-  font-size: 11px;
 }
 
 .search-empty-state {
