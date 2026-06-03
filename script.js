@@ -8,7 +8,7 @@ const MAP = {
   l: { "en": "English", "hi": "Hindi", "be": "Bengali", "sp": "Spanish", "jp": "Japanese", "kr": "Korean", "sind": "South Indian" }
 };
 
-// 🎬 TAG COLOR MAP
+// 🎬 TAG COLOR MAP — kept for ID lookup, neutral styling via CSS
 const TAG_CLASS = {
   1:"tag-action", 2:"tag-comedy", 3:"tag-romance", 4:"tag-horror",
   5:"tag-crime", 6:"tag-scifi", 7:"tag-drama", 8:"tag-adventure",
@@ -32,7 +32,6 @@ function getBackdropUrl(path) {
    🎬 FEATURED SLIDESHOW CONTROLLER
 ========================================= */
 (function initSlideshow() {
-  // TIMING CHANGE: interval increased from 3000ms to 5000ms
   const INTERVAL_MS   = 5000;
   const TRANSITION_MS = 650;
 
@@ -51,7 +50,6 @@ function getBackdropUrl(path) {
   let timer       = null;
   let isAnimating = false;
 
-  // Build slide backgrounds and content from data attributes
   slideEls.forEach((el) => {
     const img   = el.getAttribute("data-img")   || "";
     const title = el.getAttribute("data-title") || "";
@@ -67,7 +65,6 @@ function getBackdropUrl(path) {
     `;
   });
 
-  // Build dot indicators
   slideEls.forEach((_, i) => {
     const dot = document.createElement("button");
     dot.className = "slide-dot" + (i === 0 ? " active" : "");
@@ -76,7 +73,6 @@ function getBackdropUrl(path) {
     dotsWrap.appendChild(dot);
   });
 
-  // Build progress bar
   const progressWrap = document.createElement("div");
   progressWrap.className = "slide-progress";
   const progressFill = document.createElement("div");
@@ -121,11 +117,9 @@ function getBackdropUrl(path) {
     startTimer();
   }
 
-  // Arrow controls
   prevBtn.addEventListener("click", () => { prev(); resetTimer(); });
   nextBtn.addEventListener("click", () => { next(); resetTimer(); });
 
-  // Touch/swipe support
   let touchStartX = 0;
   let touchDelta  = 0;
 
@@ -146,7 +140,6 @@ function getBackdropUrl(path) {
     startTimer();
   }, { passive: true });
 
-  // Pause on hover (desktop)
   const slideshow = document.getElementById("featuredSlideshow");
   slideshow.addEventListener("mouseenter", () => {
     clearInterval(timer);
@@ -156,20 +149,38 @@ function getBackdropUrl(path) {
     startTimer();
   });
 
-  // Initial render
   track.style.transform = `translateX(0%)`;
   startTimer();
 })();
 
 /* =========================================
-   🎬 UNIFIED CARD BUILDER
+   🎬 UNIFIED CARD BUILDER — UPGRADED
+   Structure:
+   .movie-card
+     .movie-poster
+       img
+       .movie-card-placeholder
+       .movie-card-overlay (hidden)
+       .movie-rating          ← top-left, circular, on border
+       .movie-card-top
+         .movie-watchlist-btn ← top-right, enlarged
+     .movie-info
+       .movie-title-row
+         .movie-title
+         .movie-year
+       .movie-tags
+         .tag (neutral)
 ========================================= */
 function buildCard(movie, onclickStr) {
   const genres = (movie.g || []).slice(0, 2).map(id =>
     `<span class="tag ${TAG_CLASS[id] || 'tag-drama'}">${MAP.g[id]}</span>`
   ).join("");
+
   const mood = movie.m && movie.m[0]
     ? `<span class="tag tag-mood">${MAP.m[movie.m[0]]}</span>` : "";
+
+  const year = movie.y
+    ? `<span class="movie-year">${movie.y}</span>` : "";
 
   const initial = movie.t.trim().charAt(0).toUpperCase();
   const imgUrl  = getImageUrl(movie.p);
@@ -191,25 +202,28 @@ function buildCard(movie, onclickStr) {
         ${imgHTML}
         <div class="movie-card-placeholder" style="${placeholderStyle}">
           <span class="placeholder-initial">${initial}</span>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.15">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.12">
             <rect x="2" y="2" width="20" height="20" rx="4"/>
             <circle cx="8.5" cy="8.5" r="1.5"/>
             <polyline points="21 15 16 10 5 21"/>
           </svg>
         </div>
         <div class="movie-card-overlay"></div>
+        <div class="movie-rating">★ 8.5</div>
         <div class="movie-card-top">
-          <div class="movie-rating">★ 8.5</div>
           <div class="movie-watchlist-btn" onclick="event.stopPropagation()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
             </svg>
           </div>
         </div>
-        <div class="movie-info">
+      </div>
+      <div class="movie-info">
+        <div class="movie-title-row">
           <div class="movie-title">${movie.t}</div>
-          <div class="movie-tags">${genres}${mood}</div>
+          ${year}
         </div>
+        <div class="movie-tags">${genres}${mood}</div>
       </div>
     </div>
   `;
