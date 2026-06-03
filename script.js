@@ -192,11 +192,16 @@ function renderCarousel(containerId, items) {
 async function initHomepageCarousels() {
   // Show skeletons immediately in all 4 sections
   const carouselIds = [
-    "carousel-featured",
-    "carousel-trending-movies",
-    "carousel-trending-series",
-    "carousel-trending-anime"
-  ];
+  "carousel-featured",
+  "carousel-trending-movies",
+  "carousel-trending-series",
+  "carousel-trending-anime",
+  "carousel-latest-releases",
+  "carousel-kids-specials",
+  "carousel-for-you",
+  "carousel-global-favourites",
+  "carousel-regional-hits"
+];
   carouselIds.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = buildSkeletonRow();
@@ -231,10 +236,15 @@ async function initHomepageCarousels() {
     }
 
     // Render all 4 carousels
-    renderCarousel("carousel-featured",         resolveSection("featured"));
-    renderCarousel("carousel-trending-movies",  resolveSection("trending_movies"));
-    renderCarousel("carousel-trending-series",  resolveSection("trending_series"));
-    renderCarousel("carousel-trending-anime",   resolveSection("trending_anime"));
+    renderCarousel("carousel-featured",          resolveSection("featured"));
+    renderCarousel("carousel-trending-movies",   resolveSection("trending_movies"));
+    renderCarousel("carousel-trending-series",   resolveSection("trending_series"));
+    renderCarousel("carousel-trending-anime",    resolveSection("trending_anime"));
+    renderCarousel("carousel-latest-releases",   resolveSection("latest_releases"));
+    renderCarousel("carousel-kids-specials",     resolveSection("kids_specials"));
+    renderCarousel("carousel-for-you",           resolveSection("for_you"));
+    renderCarousel("carousel-global-favourites", resolveSection("global_favourites"));
+    renderCarousel("carousel-regional-hits",     resolveSection("regional_hits"));
 
   } catch (e) {
     console.error("Homepage carousel load error:", e);
