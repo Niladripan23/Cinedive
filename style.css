@@ -753,6 +753,86 @@ h1 {
 
 .movie-meta { display: none; }
 
+/* =========================================
+   🎬 HOMEPAGE CAROUSEL SECTIONS
+========================================= */
+
+.homepage-sections {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.carousel-section {
+  margin-bottom: 32px;
+}
+
+.carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  margin-bottom: 14px;
+}
+
+.carousel-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .carousel-title {
+    font-size: 18px;
+  }
+  .carousel-header {
+    padding: 0 24px;
+  }
+}
+
+/* Skeleton loader for carousel while data loads */
+.carousel-skeleton {
+  display: flex;
+  gap: 12px;
+  padding: 0 16px;
+  overflow: hidden;
+}
+
+.skeleton-card {
+  flex: 0 0 28vw;
+  max-width: 156px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #1a1a1a 25%, #242424 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-line {
+  height: 10px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #1a1a1a 25%, #242424 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+@keyframes skeletonShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* 🔥 FOOTER */
 .footer {
   padding: 25px 15px;
