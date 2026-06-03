@@ -8,14 +8,12 @@ const MAP = {
   l: { "en": "English", "hi": "Hindi", "be": "Bengali", "sp": "Spanish", "jp": "Japanese", "kr": "Korean", "sind": "South Indian" }
 };
 
-// 🎬 TAG COLOR MAP — kept for ID lookup, neutral styling via CSS
 const TAG_CLASS = {
   1:"tag-action", 2:"tag-comedy", 3:"tag-romance", 4:"tag-horror",
   5:"tag-crime", 6:"tag-scifi", 7:"tag-drama", 8:"tag-adventure",
   9:"tag-fantasy", 10:"tag-history", 11:"tag-thriller", 12:"tag-animation"
 };
 
-// 🖼️ TMDB IMAGE URL BUILDER
 const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
 
 function getImageUrl(path) {
@@ -54,9 +52,7 @@ function getBackdropUrl(path) {
     const img   = el.getAttribute("data-img")   || "";
     const title = el.getAttribute("data-title") || "";
     const label = el.getAttribute("data-label") || "";
-
     if (img) el.style.backgroundImage = `url('${img}')`;
-
     el.innerHTML = `
       <div class="slide-content">
         ${label ? `<span class="slide-label"><span class="slide-label-dot"></span>${label}</span>` : ""}
@@ -81,8 +77,9 @@ function getBackdropUrl(path) {
   document.getElementById("featuredSlideshow").appendChild(progressWrap);
 
   function updateDots() {
-    const dots = dotsWrap.querySelectorAll(".slide-dot");
-    dots.forEach((d, i) => d.classList.toggle("active", i === current));
+    dotsWrap.querySelectorAll(".slide-dot").forEach((d, i) =>
+      d.classList.toggle("active", i === current)
+    );
   }
 
   function startProgress() {
@@ -112,10 +109,7 @@ function getBackdropUrl(path) {
     startProgress();
   }
 
-  function resetTimer() {
-    clearInterval(timer);
-    startTimer();
-  }
+  function resetTimer() { clearInterval(timer); startTimer(); }
 
   prevBtn.addEventListener("click", () => { prev(); resetTimer(); });
   nextBtn.addEventListener("click", () => { next(); resetTimer(); });
@@ -133,9 +127,7 @@ function getBackdropUrl(path) {
   }, { passive: true });
 
   track.addEventListener("touchend", () => {
-    if (Math.abs(touchDelta) > 40) {
-      touchDelta < 0 ? next() : prev();
-    }
+    if (Math.abs(touchDelta) > 40) touchDelta < 0 ? next() : prev();
     touchDelta = 0;
     startTimer();
   }, { passive: true });
@@ -145,31 +137,119 @@ function getBackdropUrl(path) {
     clearInterval(timer);
     progressFill.style.transition = "none";
   });
-  slideshow.addEventListener("mouseleave", () => {
-    startTimer();
-  });
+  slideshow.addEventListener("mouseleave", () => startTimer());
 
   track.style.transform = `translateX(0%)`;
   startTimer();
 })();
 
 /* =========================================
-   🎬 UNIFIED CARD BUILDER — UPGRADED
-   Structure:
-   .movie-card
-     .movie-poster
-       img
-       .movie-card-placeholder
-       .movie-card-overlay (hidden)
-       .movie-rating          ← top-left, circular, on border
-       .movie-card-top
-         .movie-watchlist-btn ← top-right, enlarged
-     .movie-info
-       .movie-title-row
-         .movie-title
-         .movie-year
-       .movie-tags
-         .tag (neutral)
+   🎬 HOMEPAGE CAROUSEL ENGINE
+   Flow:
+   1. Fetch homepage.json — get id list per section
+   2. Fetch data.json    — build id→item lookup map
+   3. Match ids, render cards into each carousel
+   4. Show skeleton while loading, replace on ready
+========================================= */
+
+// Shared data.json cache — reused by carousels + search + filter
+let masterDataCache = [];
+
+// Returns skeleton HTML for a carousel row (4 placeholder cards)
+function buildSkeletonRow() {
+  let html = '<div class="carousel-skeleton">';
+  for (let i = 0; i < 4; i++) {
+    html += `
+      <div class="skeleton-card">
+        <div class="skeleton-poster"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+      </div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+// Renders a carousel section from a list of matched data.json items
+function renderCarousel(containerId, items) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (!items || items.length === 0) {
+    container.innerHTML = `<p style="color:#555; font-size:13px; padding:0 16px;">Nothing found.</p>`;
+    return;
+  }
+
+  let html = "";
+  items.forEach(movie => {
+    const onclick = `openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    html += buildCard(movie, onclick);
+  });
+  container.innerHTML = html;
+}
+
+// Main homepage loader — runs once on page load
+async function initHomepageCarousels() {
+  // Show skeletons immediately in all 4 sections
+  const carouselIds = [
+    "carousel-featured",
+    "carousel-trending-movies",
+    "carousel-trending-series",
+    "carousel-trending-anime"
+  ];
+  carouselIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = buildSkeletonRow();
+  });
+
+  try {
+    // Fetch both files in parallel
+    const [hpRes, dataRes] = await Promise.all([
+      fetch("homepage.json"),
+      fetch("data.json")
+    ]);
+
+    const hpRaw  = await hpRes.json();
+    const dataArr = await dataRes.json();
+
+    // homepage.json is array-wrapped: [{...}]
+    const hp = Array.isArray(hpRaw) ? hpRaw[0] : hpRaw;
+
+    // Cache data.json for search/filter reuse
+    masterDataCache = dataArr;
+
+    // Build O(1) id → item lookup map
+    const dataMap = new Map();
+    dataArr.forEach(item => dataMap.set(item.id, item));
+
+    // Resolve a homepage.json section list → matched data.json items
+    function resolveSection(sectionKey) {
+      const list = hp[sectionKey] || [];
+      return list
+        .map(entry => dataMap.get(entry.id))
+        .filter(Boolean); // drop any ids not found in data.json
+    }
+
+    // Render all 4 carousels
+    renderCarousel("carousel-featured",         resolveSection("featured"));
+    renderCarousel("carousel-trending-movies",  resolveSection("trending_movies"));
+    renderCarousel("carousel-trending-series",  resolveSection("trending_series"));
+    renderCarousel("carousel-trending-anime",   resolveSection("trending_anime"));
+
+  } catch (e) {
+    console.error("Homepage carousel load error:", e);
+    carouselIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = `<p style="color:#555; font-size:13px; padding:0 16px;">Failed to load.</p>`;
+    });
+  }
+}
+
+// Kick off on DOM ready
+document.addEventListener("DOMContentLoaded", initHomepageCarousels);
+
+/* =========================================
+   🎬 UNIFIED CARD BUILDER
 ========================================= */
 function buildCard(movie, onclickStr) {
   const genres = (movie.g || []).slice(0, 2).map(id =>
@@ -250,8 +330,12 @@ async function findSuggestion() {
   resultsDiv.innerHTML = `<p style="color:#B0B0B0; text-align:center; width:100%; padding:20px 0;">Updating your picks...</p>`;
 
   try {
-    const response = await fetch("data.json");
-    const data     = await response.json();
+    // Reuse masterDataCache if already loaded, else fetch
+    const data = masterDataCache.length > 0
+      ? masterDataCache
+      : await fetch("data.json").then(r => r.json());
+
+    if (masterDataCache.length === 0) masterDataCache = data;
 
     const typeVal  = document.getElementById("type").value;
     const genreVal = parseInt(document.getElementById("genre").value);
@@ -318,13 +402,12 @@ async function openSearchOverlay() {
     document.getElementById("overlay-search-input").focus();
   }, 100);
 
+  // Reuse masterDataCache if available
   if (searchDataCache.length === 0) {
-    try {
-      const response = await fetch("data.json");
-      searchDataCache = await response.json();
-    } catch (e) {
-      console.error("Failed to load search data:", e);
-    }
+    searchDataCache = masterDataCache.length > 0
+      ? masterDataCache
+      : await fetch("data.json").then(r => r.json()).catch(() => []);
+    if (masterDataCache.length === 0) masterDataCache = searchDataCache;
   }
 
   renderRecentSearches();
@@ -356,10 +439,7 @@ function renderRecentSearches() {
   const section  = document.getElementById("recent-searches-section");
   const searches = getRecentSearches();
 
-  if (searches.length === 0) {
-    section.style.display = "none";
-    return;
-  }
+  if (searches.length === 0) { section.style.display = "none"; return; }
 
   section.style.display = "block";
   list.innerHTML = searches.map(query => `
