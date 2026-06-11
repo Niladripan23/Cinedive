@@ -182,7 +182,7 @@ function renderCarousel(containerId, items) {
 
   let html = "";
   items.forEach(movie => {
-    const onclick = `openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    const onclick = `window.location.href='movie.html?id=${movie.id}'`;
     html += buildCard(movie, onclick);
   });
   container.innerHTML = html;
@@ -392,7 +392,7 @@ function displayResults(results, title) {
   const finalSelection = results.slice(0, 6);
   let html = "";
   finalSelection.forEach(movie => {
-    const onclick = `openSearchOverlay(); applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    const onclick = `window.location.href='movie.html?id=${movie.id}'`;
     html += buildCard(movie, onclick);
   });
   resultsDiv.innerHTML = html;
@@ -492,7 +492,8 @@ function populateHorizontalSections() {
 function generateHorizontalCards(items) {
   let html = "";
   items.forEach(movie => {
-    const onclick = `applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    // FIX: Click now redirects to the actual movie page
+    const onclick = `window.location.href='movie.html?id=${movie.id}'`;
     html += buildCard(movie, onclick);
   });
   return html;
@@ -537,7 +538,8 @@ function renderOverlayCards(results) {
   const resultsGrid = document.getElementById("search-overlay-results");
   let html = "";
   results.forEach(movie => {
-    const onclick = `applyRecentSearch('${movie.t.replace(/'/g, "\\'")}')`;
+    // FIX: Click now redirects to the actual movie page
+    const onclick = `window.location.href='movie.html?id=${movie.id}'`;
     html += buildCard(movie, onclick);
   });
   resultsGrid.innerHTML = html;
