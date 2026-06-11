@@ -29,7 +29,7 @@ const TMDB_BACKDROP = "https://image.tmdb.org/t/p/w1280";
 // ── PLATFORM CONFIG ──────────────────────────────────────────
 // normalized name → { logo, link function }
 const PLATFORM_CONFIG = {
-  "Netflix":      { logo: "platformlogos/netflix.png" },
+  "Netflix":      { logo: "netflix.png" },
   "Prime Video":  { logo: "primevideo.png" },
   "Apple TV+":    { logo: "platformlogos/appletv+.png" },
   "Disney+":      { logo: "platformlogos/disney+.png" },
