@@ -41,27 +41,29 @@ const PLATFORM_CONFIG = {
   "YouTube":      { logo: "platformlogos/YouTube.png" }
 };
 
-// TMDB provider_name → our normalized name
 const PLATFORM_NAME_MAP = {
-  "Amazon Prime Video" : "Prime Video",
-  "Amazon Video"       : "Prime Video",
-  "Prime Video"        : "Prime Video",
-  "Netflix"            : "Netflix",
-  "Disney Plus"        : "Disney+",
-  "Disney+"            : "Disney+",
-  "Disney+ Hotstar"    : "JioHotstar",
-  "Jio Hotstar"        : "JioHotstar",
-  "JioCinema"          : "JioHotstar",
-  "Jio Cinema"         : "JioHotstar",
-  "Sony Liv"           : "SonyLIV",
-  "SonyLIV"            : "SonyLIV",
-  "Hoichoi"            : "Hoichoi",
-  "Apple TV Plus"      : "Apple TV+",
-  "Apple TV+"          : "Apple TV+",
-  "HBO Max"            : "Max",
-  "Max"                : "Max",
-  "Crunchyroll"        : "Crunchyroll",
-  "YouTube"            : "YouTube"
+  "Amazon Prime Video"       : "Prime Video",
+  "Amazon Video"             : "Prime Video",
+  "Prime Video"              : "Prime Video",
+  "Netflix"                  : "Netflix",
+  "Disney Plus"              : "Disney+",
+  "Disney+"                  : "Disney+",
+  "Disney+ Hotstar"          : "JioHotstar",
+  "Jio Hotstar"              : "JioHotstar",
+  "JioCinema"                : "JioHotstar",
+  "Jio Cinema"               : "JioHotstar",
+  "Sony Liv"                 : "SonyLIV",
+  "SonyLIV"                  : "SonyLIV",
+  "Hoichoi"                  : "Hoichoi",
+  "Apple TV"                 : "Apple TV+",
+  "Apple TV Plus"            : "Apple TV+",
+  "Apple TV+"                : "Apple TV+",
+  "Apple TV Store"           : "Apple TV+",
+  "Apple TV Amazon Channel"  : "Apple TV+",
+  "HBO Max"                  : "Max",
+  "Max"                      : "Max",
+  "Crunchyroll"              : "Crunchyroll",
+  "YouTube"                  : "YouTube"
 };
 
 function getPlatformLink(name, movieTitle) {
