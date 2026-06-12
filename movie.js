@@ -29,16 +29,16 @@ const TMDB_BACKDROP = "https://image.tmdb.org/t/p/w1280";
 // ── PLATFORM CONFIG ──────────────────────────────────────────
 // normalized name → { logo, link function }
 const PLATFORM_CONFIG = {
-  "Netflix":      { logo: "platformlogos/netflix.png" },
-  "Prime Video":  { logo: "platformlogos/primevideo.png" },
-  "Apple TV+":    { logo: "platformlogos/appletv+.png" },
-  "Disney+":      { logo: "platformlogos/disney+.png" },
-  "SonyLIV":      { logo: "platformlogos/sonyliv.png" },
-  "Hoichoi":      { logo: "platformlogos/hoichoi.png" },
-  "JioHotstar":   { logo: "platformlogos/jiohotstar.png" },
-  "Max":          { logo: "platformlogos/max.png" },
-  "Crunchyroll":  { logo: "platformlogos/crunchyroll.png" },
-  "YouTube":      { logo: "platformlogos/youtube.png" }
+  "Netflix":      { logo: "netflix.png" },
+  "Prime Video":  { logo: "primevideo.png" },
+  "Apple TV+":    { logo: "appletv+.png" },
+  "Disney+":      { logo: "disney+.png" },
+  "SonyLIV":      { logo: "sonyliv.png" },
+  "Hoichoi":      { logo: "hoichoi.png" },
+  "JioHotstar":   { logo: "jiohotstar.png" },
+  "Max":          { logo: "max.png" },
+  "Crunchyroll":  { logo: "crunchyroll.png" },
+  "YouTube":      { logo: "youtube.png" }
 };
 
 const PLATFORM_NAME_MAP = {
