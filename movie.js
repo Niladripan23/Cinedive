@@ -194,7 +194,7 @@ function populatePage(movie, tmdbData, userCountry) {
   // Cast
   let castStr = "—";
   if (tmdbData?.credits?.cast?.length) {
-    castStr = tmdbData.credits.cast.slice(0, 5).map(c => c.name).join(", ");
+    castStr = tmdbData.credits.cast.slice(0, 6).map(c => c.name).join(", ");
   }
   document.getElementById("mpCast").textContent = castStr;
 
